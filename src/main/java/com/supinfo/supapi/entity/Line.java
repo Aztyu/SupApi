@@ -15,6 +15,7 @@ import com.supinfo.supapi.entity.association.StationLineAssociation;
 
 
 @Entity
+//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
 public class Line {
 	@Id
 	private int id;

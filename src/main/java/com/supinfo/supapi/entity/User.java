@@ -12,7 +12,9 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.Generated;
 
+
 @Entity
+//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
 public class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
