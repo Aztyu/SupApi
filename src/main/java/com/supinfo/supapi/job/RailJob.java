@@ -1,12 +1,15 @@
 package com.supinfo.supapi.job;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.supinfo.supapi.entity.Line;
 import com.supinfo.supapi.entity.Station;
+import com.supinfo.supapi.entity.association.StationLineAssociation;
 import com.supinfo.supapi.interfaces.dao.IRailDao;
 import com.supinfo.supapi.interfaces.dao.ITrainDao;
 import com.supinfo.supapi.interfaces.job.IRailJob;
@@ -20,6 +23,52 @@ public class RailJob implements IRailJob{
 	
 	//Rail
 	
+	@Override
+	public void findTravel(String departure_id, String departure_time, String arrival_id, String arrival_time) {
+		Date departure_date = new Date(Long.parseLong(departure_time));
+		Date arrival_date = new Date(Long.parseLong(departure_time));
+		
+		
+		Station departure_st = dao.findStation(Long.parseLong(departure_id));
+		Station arrival_st = dao.findStation(Long.parseLong(arrival_id));
+		
+		long id = getCommonLine(departure_st, arrival_st);
+		
+		List<Station> steps = new ArrayList<Station>();
+		steps.add(departure_st);
+		
+		if(id == -1){
+			steps.addAll(getSteps(departure_st, arrival_st));
+		}
+		
+		steps.add(arrival_st);
+		
+		
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private List<Station> getSteps(Station departure_st, Station arrival_st) {
+		List<Station> stations = new ArrayList<Station>();
+		
+		
+		
+		return stations;
+	}
+
+	private long getCommonLine(Station departure_st, Station arrival_st) {
+		long line = -1;
+		for(StationLineAssociation l : departure_st.getLines()){
+			long line_id = l.getLine().getId();
+			for(StationLineAssociation l1 : arrival_st.getLines()){
+				if(line_id == l1.getLine().getId()){
+					return line_id;
+				}
+			}
+		}
+		return line;
+	}
+
 	@Override
 	public void initRail() {
 		List<Line> lines = new ArrayList<Line>();

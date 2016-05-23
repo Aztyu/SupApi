@@ -19,25 +19,26 @@ import com.supinfo.supapi.interfaces.job.ITrainJob;
 
 
 @Controller
-public class TrainController {
+public class TravelController {
 	
 	@Autowired
     IRailJob rail_job;
 	
-	@RequestMapping(value = "/station/search", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/travel/find", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody Response searchStationByName(Model model, HttpServletRequest request) {
 		Response resp = new Response();
 		try{
-			String search = request.getParameter("search");
+			String departure_id = request.getParameter("departure_id");
+			String departure_time = request.getParameter("departure_time");
 			
-			List<Station> stations = new ArrayList<Station>();
-			if(search != null){
-				stations.addAll(rail_job.searchStationByName(search));
-			}
+			String arrival_id = request.getParameter("departure_id");
+			String arrival_time = request.getParameter("departure_time");
+			
+			rail_job.findTravel(departure_id, departure_time, arrival_id, arrival_time);
 			
 			resp.setHtml_status(200);
 			resp.setHtml_message("OK");
-			resp.setStations(stations);
+			//resp.setStations(stations);
 			
 			return resp;
 		}catch(Exception ex){

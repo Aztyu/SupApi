@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import com.supinfo.supapi.database.PersistenceManager;
 import com.supinfo.supapi.entity.Line;
 import com.supinfo.supapi.entity.Station;
+import com.supinfo.supapi.entity.User;
 import com.supinfo.supapi.interfaces.dao.IRailDao;
 import com.supinfo.supapi.interfaces.dao.ITrainDao;
 
@@ -40,5 +41,18 @@ public class RailDao implements IRailDao{
 		query.setParameter("search", "%" + search + "%");
 		List<Station> stations = query.getResultList();
 		return stations;
+	}
+	
+	@Override
+	public Station findStation(long station_id) {
+		EntityManager em = PersistenceManager.getEntityManager();
+		Query query = em.createQuery("SELECT s FROM Station AS s WHERE s.id = :station_id");
+		query.setParameter("station_id", station_id);
+		List results = query.getResultList();
+		if(results.isEmpty()){
+			return null;
+		}else{
+			return (Station)results.get(0);
+		}
 	}
 }
