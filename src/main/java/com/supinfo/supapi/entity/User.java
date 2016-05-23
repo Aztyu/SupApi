@@ -21,7 +21,41 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private String email;
-	
+	private String country;
+	private String city;
+	private String address;
+	private int zipcode;
+	private int phone;
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public int getZipcode() {
+		return zipcode;
+	}
+	public void setZipcode(int zipcode) {
+		this.zipcode = zipcode;
+	}
+	public int getPhone() {
+		return phone;
+	}
+	public void setPhone(int phone) {
+		this.phone = phone;
+	}
 	private String password;
 	private String salt;
 	
