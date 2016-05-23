@@ -9,13 +9,15 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import com.supinfo.supapi.dao.TrainDao;
+import com.supinfo.supapi.dao.RailDao;
 import com.supinfo.supapi.dao.UserDao;
+import com.supinfo.supapi.interfaces.dao.IRailDao;
 import com.supinfo.supapi.interfaces.dao.ITrainDao;
 import com.supinfo.supapi.interfaces.dao.IUserDao;
+import com.supinfo.supapi.interfaces.job.IRailJob;
 import com.supinfo.supapi.interfaces.job.ITrainJob;
 import com.supinfo.supapi.interfaces.job.IUserJob;
-import com.supinfo.supapi.job.TrainJob;
+import com.supinfo.supapi.job.RailJob;
 import com.supinfo.supapi.job.UserJob;
 
 @Configuration
@@ -46,12 +48,12 @@ public class GeneralConfiguration extends WebMvcConfigurerAdapter{
     }
     
     @Bean
-    public ITrainDao getTrainDao() {
-        return new TrainDao();
+    public IRailDao getRailDao() {
+        return new RailDao();
     }
     
     @Bean
-    public ITrainJob getTrainJob() {
-        return new TrainJob();
+    public IRailJob getRailJob() {
+        return new RailJob();
     }
 }

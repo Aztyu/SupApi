@@ -10,9 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import com.supinfo.supapi.entity.association.StationLineAssociation;
 
+
 @Entity
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_EMPTY)
+//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
 public class Station {
 	@Id
 	private long id;

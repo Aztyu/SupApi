@@ -11,6 +11,7 @@ import com.supinfo.supapi.entity.Line;
 import com.supinfo.supapi.entity.Station;
 
 @Entity
+//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
 public class StationLineAssociation {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

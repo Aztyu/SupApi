@@ -1,6 +1,7 @@
 package com.supinfo.supapi.entity;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import java.util.List;
+
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_EMPTY)
@@ -9,6 +10,7 @@ public class Response {
 	private String html_message;
 	
 	private User user;
+	private List<Station> stations;
 
 	public int getHtml_status() {
 		return html_status;
@@ -34,5 +36,11 @@ public class Response {
 		this.user = user;
 	}
 
-	
+	public List<Station> getStations() {
+		return stations;
+	}
+
+	public void setStations(List<Station> stations) {
+		this.stations = stations;
+	}
 }
