@@ -28,7 +28,7 @@ public class StationController {
 		return "main";
 	}
 	
-	@RequestMapping(value = "/station/search", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/station/search", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public @ResponseBody Response searchStationByName(Model model, HttpServletRequest request) {
 		Response resp = new Response();
 		try{

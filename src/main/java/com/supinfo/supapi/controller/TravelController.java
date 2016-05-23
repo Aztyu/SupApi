@@ -24,7 +24,7 @@ public class TravelController {
 	@Autowired
     IRailJob rail_job;
 	
-	@RequestMapping(value = "/travel/find", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/travel/find", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public @ResponseBody Response searchStationByName(Model model, HttpServletRequest request) {
 		Response resp = new Response();
 		try{
