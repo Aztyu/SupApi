@@ -51,4 +51,13 @@ public class UserDao implements IUserDao{
 			return (User)results.get(0);
 		}
 	}
+	
+	@Override
+	public boolean userExists(String email) {
+		EntityManager em = PersistenceManager.getEntityManager();
+		Query query = em.createQuery("SELECT u FROM User AS u WHERE u.email = :email");
+		query.setParameter("email", email);
+		List results = query.getResultList();
+		return !results.isEmpty();
+	}
 }

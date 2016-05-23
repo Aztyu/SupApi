@@ -24,7 +24,7 @@ public class UserJob implements IUserJob{
 	private IUserDao dao;
 
 	@Override
-	public void createUser(User user, String password) {
+	public void createUser(User user, String password) throws Exception {
 		try {
 			String salt = BaseUtil.generateSalt();
 	        String hash = BaseUtil.getSaltedPassword(salt, password);
@@ -32,7 +32,11 @@ public class UserJob implements IUserJob{
 	        user.setSalt(salt);
 	        user.setPassword(hash);
 	        
-	        dao.createUser(user);
+	        if(!dao.userExists(user.getEmail())){
+	        	dao.createUser(user);
+	        }else{
+	        	throw new Exception();
+	        }
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
@@ -47,7 +51,7 @@ public class UserJob implements IUserJob{
 	}
 	
 	@Override
-	public User getUserFromGoogle(String google_id) throws GeneralSecurityException, IOException{
+	public User getUserFromGoogle(String google_id) throws Exception{
 		NetHttpTransport transport = new NetHttpTransport();
 		GsonFactory jsonFactory = new GsonFactory();
 		GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory )
@@ -77,7 +81,11 @@ public class UserJob implements IUserJob{
 				user.setFirstName((String) payload.get("name"));
 				user.setLastName((String) payload.get("family_name"));
 			
-				dao.createUser(user);
+				if(!dao.userExists(user.getEmail())){
+		        	dao.createUser(user);
+		        }else{
+		        	throw new Exception();
+		        }
 			}
 			
 		  	return user;

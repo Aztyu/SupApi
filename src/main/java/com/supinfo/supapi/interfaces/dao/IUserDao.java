@@ -7,4 +7,5 @@ public interface IUserDao {
     public User getUser(String login, String password);
 	public String getUserSalt(String login);
 	public User getGoogleUser(String email);
+	boolean userExists(String email);
 }

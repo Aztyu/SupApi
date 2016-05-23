@@ -58,7 +58,7 @@ public class UserController {
         }		
     }
 	
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@RequestMapping(value = "user/register", method = RequestMethod.GET)
     public @ResponseBody Response saveUser(Model model, HttpServletRequest request){
         Response resp = new Response();
         try{
