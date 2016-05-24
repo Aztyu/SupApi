@@ -46,10 +46,9 @@ public class UserJob implements IUserJob{
 	
 	@Override
 	public void editUser(User user, String password) throws Exception {
-			if (dao.userCheck(user.getId(), password) == true) {
-				dao.updateUser(user);
-			}
-			
+		if (dao.userCheck(user.getId(), password) == true) {
+			dao.updateUser(user);
+		}
 	}
 
 	@Override

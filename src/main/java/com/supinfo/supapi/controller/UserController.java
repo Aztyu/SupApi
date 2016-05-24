@@ -1,5 +1,7 @@
 package com.supinfo.supapi.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,6 @@ public class UserController {
 	
 	@Autowired
 	IUserJob user_job;
-	private IUserDao dao;
 	
 	@RequestMapping(value = "/user/login", method = RequestMethod.GET)
 	public @ResponseBody Response mainLogin(Model model, HttpServletRequest request) {
@@ -86,8 +87,7 @@ public class UserController {
     public @ResponseBody Response editUser(Model model, HttpServletRequest request){
         Response resp = new Response();
         try{
-        	String id = request.getParameter("id");
-	        User u = dao.getUserById(Long.parseLong(request.getParameter("id")), request.getParameter("password"));
+	        User u = user_job.getUserById(Long.parseLong(request.getParameter("id")), request.getParameter("password"));
 	        
         	u.setFirstName(request.getParameter("firstname"));
             u.setLastName(request.getParameter("lastname"));
