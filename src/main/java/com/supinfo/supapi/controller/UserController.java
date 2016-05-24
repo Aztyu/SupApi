@@ -82,16 +82,22 @@ public class UserController {
         }
     }
 	
-	@RequestMapping(value = "user/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "user/edit", method = RequestMethod.POST)
     public @ResponseBody Response editUser(Model model, HttpServletRequest request){
         Response resp = new Response();
         try{
+        	String id = request.getParameter("id");
 	        User u = dao.getUserById(Long.parseLong(request.getParameter("id")), request.getParameter("password"));
 	        
-	        u.setFirstName(request.getParameter("firstname"));
-	        u.setLastName(request.getParameter("lastname"));
-	        u.setEmail(request.getParameter("email"));
-	        
+        	u.setFirstName(request.getParameter("firstname"));
+            u.setLastName(request.getParameter("lastname"));
+            u.setPassword(request.getParameter("password"));
+            u.setCountry(request.getParameter("country"));
+            u.setCity(request.getParameter("city"));
+            u.setAddress(request.getParameter("address"));
+            u.setZipcode(Integer.parseInt(request.getParameter("zipcode")));
+            u.setPhone(Integer.parseInt(request.getParameter("phone")));
+            	        
 	        user_job.editUser(u, request.getParameter("password"));
 	        
 	        resp.setHtml_message("OK");
