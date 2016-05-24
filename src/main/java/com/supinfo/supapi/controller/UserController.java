@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.JsonObject;
 import com.supinfo.supapi.entity.Response;
 import com.supinfo.supapi.entity.User;
+import com.supinfo.supapi.interfaces.dao.IUserDao;
 import com.supinfo.supapi.interfaces.job.IUserJob;
 
 @Controller
@@ -19,6 +20,7 @@ public class UserController {
 	
 	@Autowired
 	IUserJob user_job;
+	private IUserDao dao;
 	
 	@RequestMapping(value = "/user/login", method = RequestMethod.GET)
 	public @ResponseBody Response mainLogin(Model model, HttpServletRequest request) {
@@ -76,6 +78,29 @@ public class UserController {
 			return resp;
         }catch(Exception ex){
         	resp.setHtml_message("Error on user creation");
+			resp.setHtml_status(400);
+			return resp;
+        }
+    }
+	
+	@RequestMapping(value = "user/edit", method = RequestMethod.GET)
+    public @ResponseBody Response editUser(Model model, HttpServletRequest request){
+        Response resp = new Response();
+        try{
+	        User u = dao.getUserById(Long.parseLong(request.getParameter("id")), request.getParameter("password"));
+	        
+	        u.setFirstName(request.getParameter("firstname"));
+	        u.setLastName(request.getParameter("lastname"));
+	        u.setEmail(request.getParameter("email"));
+	        
+	        user_job.editUser(u, request.getParameter("password"));
+	        
+	        resp.setHtml_message("OK");
+			resp.setHtml_status(200);
+			resp.setUser(u);
+			return resp;
+        }catch(Exception ex){
+        	resp.setHtml_message("Error on user update");
 			resp.setHtml_status(400);
 			return resp;
         }

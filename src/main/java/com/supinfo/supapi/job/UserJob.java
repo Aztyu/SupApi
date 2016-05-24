@@ -43,11 +43,24 @@ public class UserJob implements IUserJob{
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public void editUser(User user, String password) throws Exception {
+			if (dao.userCheck(user.getId(), password) == true) {
+				dao.updateUser(user);
+			}
+			
+	}
 
 	@Override
 	public User getUser(String login, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		String salted = BaseUtil.getSaltedPassword(dao.getUserSalt(login), password);
 		return dao.getUser(login, salted);
+	}
+	
+	@Override
+	public User getUserById(Long id, String password) throws Exception {
+		return dao.getUserById(id, password);
 	}
 	
 	@Override

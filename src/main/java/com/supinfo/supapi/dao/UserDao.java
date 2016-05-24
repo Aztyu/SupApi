@@ -28,7 +28,15 @@ public class UserDao implements IUserDao{
 		query.setParameter("log", login);
 		query.setParameter("pwd", password);
 		return (User)query.getSingleResult();
-
+	}
+	
+	@Override
+	public User getUserById(Long id, String password) {
+		EntityManager em = PersistenceManager.getEntityManager();
+		Query query = em.createQuery("SELECT u FROM User AS u WHERE u.id = :id AND u.password = :pwd");
+		query.setParameter("id", id);
+		query.setParameter("pwd", password);		
+		return (User)query.getSingleResult();
 	}
 	
 	@Override
@@ -59,5 +67,26 @@ public class UserDao implements IUserDao{
 		query.setParameter("email", email);
 		List results = query.getResultList();
 		return !results.isEmpty();
+	}
+	
+	@Override
+	public boolean userCheck(long id, String password) {
+		EntityManager em = PersistenceManager.getEntityManager();
+		Query query = em.createQuery("Select u FROM User AS u WHERE u.id = :id AND u.password = :password");
+		query.setParameter("id", id);
+		query.setParameter("password", password);
+		
+		List results = query.getResultList();
+		return !results.isEmpty();
+	}
+	
+	@Override
+	public void updateUser(User user) {
+		EntityManager em = PersistenceManager.getEntityManager();
+        EntityTransaction et = em.getTransaction();
+        et.begin();
+        em.merge(user);
+        et.commit();
+        em.close();
 	}
 }
