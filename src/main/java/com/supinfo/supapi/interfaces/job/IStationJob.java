@@ -6,4 +6,5 @@ import com.supinfo.supapi.entity.Station;
 
 public interface IStationJob {
 	public List<Station> searchStationByName(String search);
+	public List<Station> getStations();
 }

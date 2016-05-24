@@ -175,4 +175,13 @@ public class RailJob implements IRailJob{
 		return stations;
 	}
 	
+	@Override
+	public List<Station> getStations() {
+		List<Station> stations = dao.getStations();
+		for(Station s : stations){
+			s.setLines(null);
+		}
+		return stations;
+	}
+	
 }

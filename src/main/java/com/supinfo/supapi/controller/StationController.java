@@ -50,4 +50,23 @@ public class StationController {
 			return resp;
 		}
 	}
+	
+	@RequestMapping(value = "/stations", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public @ResponseBody Response searchStations(Model model, HttpServletRequest request) {
+		Response resp = new Response();
+		try{
+			List<Station> stations = new ArrayList<Station>();
+			stations.addAll(rail_job.getStations());
+			
+			resp.setHtml_status(200);
+			resp.setHtml_message("OK");
+			resp.setStations(stations);
+			
+			return resp;
+		}catch(Exception ex){
+			resp.setHtml_status(401);
+			resp.setHtml_message("Error");
+			return resp;
+		}
+	}
 }

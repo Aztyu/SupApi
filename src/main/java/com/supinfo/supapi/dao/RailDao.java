@@ -55,4 +55,12 @@ public class RailDao implements IRailDao{
 			return (Station)results.get(0);
 		}
 	}
+	
+	@Override
+	public List<Station> getStations() {
+		EntityManager em = PersistenceManager.getEntityManager();
+		Query query = em.createQuery("SELECT s FROM Station AS s");
+		List<Station> stations = query.getResultList();
+		return stations;
+	}
 }
