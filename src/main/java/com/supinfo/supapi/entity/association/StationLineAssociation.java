@@ -24,6 +24,8 @@ public class StationLineAssociation {
 	private Line line;
 
 	private long station_order;
+	
+	private long distance;
 
 	public long getStation_order() {
 		return station_order;
@@ -49,5 +51,11 @@ public class StationLineAssociation {
 		this.line = line;
 	}
 
-	
+	public long getDistance() {
+		return distance;
+	}
+
+	public void setDistance(long distance) {
+		this.distance = distance;
+	}
 }

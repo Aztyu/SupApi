@@ -10,8 +10,10 @@ import com.supinfo.supapi.database.PersistenceManager;
 import com.supinfo.supapi.entity.Line;
 import com.supinfo.supapi.entity.Station;
 import com.supinfo.supapi.entity.User;
+import com.supinfo.supapi.enumeration.Sens;
 import com.supinfo.supapi.interfaces.dao.IRailDao;
 import com.supinfo.supapi.interfaces.dao.ITrainDao;
+import com.supinfo.supapi.utils.Pair;
 
 public class RailDao implements IRailDao{
 
@@ -62,5 +64,33 @@ public class RailDao implements IRailDao{
 		Query query = em.createQuery("SELECT s FROM Station AS s");
 		List<Station> stations = query.getResultList();
 		return stations;
+	}
+	
+	@Override
+	public long getDistanceforLine(long departure_id, long arrival_id, long line_id, Sens sens) {
+		EntityManager em = PersistenceManager.getEntityManager();
+		
+		Query query; 
+		if(sens == Sens.ALLER){
+			query = em.createQuery("SELECT SUM(sa.distance) FROM StationLineAssociation AS sa WHERE sa.line.id = :line_id AND sa.station.id > :departure_id AND sa.station.id <= :arrival_id ORDER BY sa.station.id ASC");
+		}else{
+			query = em.createQuery("SELECT SUM(sa.distance) FROM StationLineAssociation AS sa WHERE sa.line.id = :line_id AND sa.station.id >= :departure_id AND sa.station.id < :arrival_id ORDER BY sa.station.id ASC");
+		}
+		query.setParameter("line_id", line_id);
+		query.setParameter("departure_id", departure_id);
+		query.setParameter("arrival_id", arrival_id);
+		List results = query.getResultList();
+		if(results == null || results.isEmpty()){
+			return (long) 0.0;
+		}else{
+			Long distance = (Long)results.get(0);
+			return (long) ((distance != null)?distance:0.0);
+		}
+	}
+
+	@Override
+	public void getStationsFromStartToEndonLine(long id, long departure_id, long arrival_id) {
+		// TODO Auto-generated method stub
+		
 	}
 }

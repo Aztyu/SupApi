@@ -6,6 +6,4 @@ import com.supinfo.supapi.entity.Station;
 
 public interface IRailDao extends ITrainDao, IStationDao {
 
-
-	
 }

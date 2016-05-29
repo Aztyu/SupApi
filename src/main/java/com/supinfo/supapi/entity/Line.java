@@ -83,11 +83,12 @@ public class Line {
 		this.stations = stations;
 	}
 
-	public void addStation(Station station, int station_order){
+	public void addStation(Station station, int station_order, long distance){
 		StationLineAssociation sla = new StationLineAssociation();
 		sla.setLine(this);
 		sla.setStation(station);
 		sla.setStation_order(station_order);
+		sla.setDistance(distance);
 		
 		this.stations.add(sla);
 		station.getLines().add(sla);

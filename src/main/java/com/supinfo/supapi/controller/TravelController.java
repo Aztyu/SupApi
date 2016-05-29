@@ -5,18 +5,20 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.supinfo.supapi.entity.Response;
+import com.supinfo.supapi.entity.SearchStation;
 import com.supinfo.supapi.entity.Station;
 import com.supinfo.supapi.interfaces.job.IRailJob;
 import com.supinfo.supapi.interfaces.job.ITrainJob;
-
 
 @Controller
 public class TravelController {
@@ -24,17 +26,16 @@ public class TravelController {
 	@Autowired
     IRailJob rail_job;
 	
-	@RequestMapping(value = "/travel/find", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public @ResponseBody Response searchStationByName(Model model, HttpServletRequest request) {
+	@RequestMapping(value = "/travel/find", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public @ResponseBody Response searchStationByName(Model model, HttpServletRequest request, @RequestBody String json) {
 		Response resp = new Response();
 		try{
-			String departure_id = request.getParameter("departure_id");
-			String departure_time = request.getParameter("departure_time");
+			String debug = json;
 			
-			String arrival_id = request.getParameter("departure_id");
-			String arrival_time = request.getParameter("departure_time");
+			ObjectMapper mapper = new ObjectMapper();
+			SearchStation search_station = mapper.readValue(json, SearchStation.class);
 			
-			rail_job.findTravel(departure_id, departure_time, arrival_id, arrival_time);
+			rail_job.findTravel(search_station);
 			
 			resp.setHtml_status(200);
 			resp.setHtml_message("OK");
