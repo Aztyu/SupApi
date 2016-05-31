@@ -155,12 +155,12 @@ public class RailJob implements IRailJob{
 		Line l8 = new Line(8, "8", "Avignon-Perpignan", 220.0);
 		
 		//Station carrefour
-		Station paris = new Station(1, "Paris, Gare de Lyon", "Place Louis Armand", "75571", "Paris", "FRANCE","48.8453765","2.369975");
-		Station lyon = new Station(2, "Lyon, Gare Part-Dieu", "Place Charles Béraudier", "69003", "Lyon", "FRANCE","45.7605748","4.85822");
-		Station avignon = new Station(3, "Avignon, Gare d'Avignon TGV", "Pont de l'Europe", "84000", "Avignon", "FRANCE","43.92157","4.7837573");
-		Station perpignan = new Station(4, "Perpignan, Gare de Perpignan", "Place Salvador Dali", "66027", "Perpignan", "FRANCE","42.696303","2.8774992");
-		Station bordeaux = new Station(5, "Bordeaux, Gare Saint-Jean", " Rue Charles Domercq", "33800", "Bordeaux", "FRANCE","44.831247","-0.7155392");
-		Station angouleme = new Station(6, "AngoulÃªme, Gare d'Angoulême", "Rue de l'État À la Grand Font", "16000", "Angoulême", "FRANCE","45.653109","0.1661533");
+		Station paris = new Station(1, "Paris, Gare de Lyon", "Place Louis Armand", "75571", "Paris", "FRANCE",48.8453765,2.369975);
+		Station lyon = new Station(2, "Lyon, Gare Part-Dieu", "Place Charles BÃ©raudier", "69003", "Lyon", "FRANCE",45.7605748,4.85822);
+		Station avignon = new Station(3, "Avignon, Gare d'Avignon TGV", "Pont de l'Europe", "84000", "Avignon", "FRANCE",43.92157,4.7837573);
+		Station perpignan = new Station(4, "Perpignan, Gare de Perpignan", "Place Salvador Dali", "66027", "Perpignan", "FRANCE",42.696303,2.8774992);
+		Station bordeaux = new Station(5, "Bordeaux, Gare Saint-Jean", " Rue Charles Domercq", "33800", "Bordeaux", "FRANCE",44.831247,-0.7155392);
+		Station angouleme = new Station(6, "AngoulÃªme, Gare d'AngoulÃªme", "Rue de l'Ã©tat Ã  la Grand Font", "16000", "AngoulÃªme", "FRANCE",45.653109,0.1661533);
 		
 		
 		//Ajout des stations qui servent de noeuds
@@ -185,41 +185,41 @@ public class RailJob implements IRailJob{
 		l8.addStation(perpignan, 4, 100);
 		
 		//Ajout des station uniques par ligne
-		l1.addStation(new Station(7, "Lille, Gare de Lille-Europe", "Place François Mitterrand", "59777", "Euralille", "FRANCE","50.6271507","3.0477618"), 1, 100);
-		l1.addStation(new Station(8, "Amiens, Gare d'Amiens", "Passage Alphonse Fique", "80000", "Amiens", "FRANCE","49.8899874","2.305108"), 2, 100);
-		l1.addStation(new Station(9, "Le Mans, Gare du Mans", "Place du 8 Mai 1945", "72000", "Le Mans", "FRANCE","47.9956173","0.1902572"), 4, 100);
-		l1.addStation(new Station(10, "Rennes, Gare de Rennes", "Place de la Gare", "35000", "Rennes", "FRANCE","48.1036292","-1.6746196,17"), 5, 100);
-		l1.addStation(new Station(11, "Brest, Gare de Brest", "Place du 19ème RI", "29200", "Brest", "FRANCE","48.387721","-4.4823407"), 6, 100);
+		l1.addStation(new Station(7, "Lille, Gare de Lille-Europe", "Place FranÃ§ois Mitterrand", "59777", "Lille", "FRANCE",50.6271507,3.0477618), 1, 100);
+		l1.addStation(new Station(8, "Amiens, Gare d'Amiens", "Passage Alphonse Fique", "80000", "Amiens", "FRANCE",49.8899874,2.305108), 2, 100);
+		l1.addStation(new Station(9, "Le Mans, Gare du Mans", "Place du 8 Mai 1945", "72000", "Le Mans", "FRANCE",47.9956173,0.1902572), 4, 100);
+		l1.addStation(new Station(10, "Rennes, Gare de Rennes", "Place de la Gare", "35000", "Rennes", "FRANCE",48.1036292,-1.6746196), 5, 100);
+		l1.addStation(new Station(11, "Brest, Gare de Brest", "Place du 19Ã¨me RI", "29200", "Brest", "FRANCE",48.387721,-4.4823407), 6, 100);
 		
-		l2.addStation(new Station(12, "Strasbourg, Gare de Strasbourg-Ville", "Place de la gare", "67000", "Strasbourg", "FRANCE","48.5816297","7.7265005"), 1, 100);
-		l2.addStation(new Station(13, "Nancy, Gare de Nancy-Ville", "Place Thiers", "54000", "Nancy", "FRANCE","48.689836","6.1722613"), 2, 100);
-		l2.addStation(new Station(14, "Metz, Gare de Metz-Ville", "Place du Général de Gaulle", "57000", "Metz", "FRANCE","49.1098419","6.1749279"), 3, 100);
+		l2.addStation(new Station(12, "Strasbourg, Gare de Strasbourg-Ville", "Place de la gare", "67000", "Strasbourg", "FRANCE",48.5816297,7.7265005), 1, 100);
+		l2.addStation(new Station(13, "Nancy, Gare de Nancy-Ville", "Place Thiers", "54000", "Nancy", "FRANCE",48.689836,6.1722613), 2, 100);
+		l2.addStation(new Station(14, "Metz, Gare de Metz-Ville", "Place du GÃ©nÃ©ral de Gaulle", "57000", "Metz", "FRANCE",49.1098419,6.1749279), 3, 100);
 		
-		l3.addStation(new Station(15, "OrlÃ©ans, Gare d'Orléans", "Avenue de Paris", "45000", "Orléans", "FRANCE","47.9079059","1.9024873"), 2, 100);
-		l3.addStation(new Station(16, "Tours, Gare SNCF de Tours", "Place du Général Leclerc", "37000", "Tours", "FRANCE","47.3892142","0.6920998"), 3, 100);
-		l3.addStation(new Station(17, "Poitiers, Gare de Poitiers", "Boulevard Pont Achard", "86000", "Poitiers", "FRANCE","46.582491","0.3317063"), 4, 100);
-		l3.addStation(new Station(18, "Bayonne, Gare de Bayonne", "Place Pereire", "64100", "Bayonne", "FRANCE","43.496848","-1.4724837"), 7, 100);
+		l3.addStation(new Station(15, "OrlÃ©ans, Gare d'OrlÃ©ans", "Avenue de Paris", "45000", "OrlÃ©ans", "FRANCE",47.9079059,1.9024873), 2, 100);
+		l3.addStation(new Station(16, "Tours, Gare SNCF de Tours", "Place du GÃ©nÃ©ral Leclerc", "37000", "Tours", "FRANCE",47.3892142,0.6920998), 3, 100);
+		l3.addStation(new Station(17, "Poitiers, Gare de Poitiers", "Boulevard Pont Achard", "86000", "Poitiers", "FRANCE",46.582491,0.3317063), 4, 100);
+		l3.addStation(new Station(18, "Bayonne, Gare de Bayonne", "Place Pereire", "64100", "Bayonne", "FRANCE",43.496848,-1.4724837), 7, 100);
 		
-		l4.addStation(new Station(19, "Troyes, Gare de Troyes", "Rue du Ravelin", "10014", "Troyes", "FRANCE","48.2961167","4.0630401"), 2, 100);
-		l4.addStation(new Station(20, "Dijon, Gare de Dijon-Ville", "Cour de la gare", "21000", "Dijon", "FRANCE","47.3235004","5.0249542"), 3, 100);
-		l4.addStation(new Station(21, "Valence, Gare de Valence-Rhône-Alpes-Sud TGV", "Rue Denis Papin", "26000", "Valence", "FRANCE","44.9279752","4.8913464"), 5, 100);
-		l4.addStation(new Station(22, "Marseille, Gare de Marseille-Saint-Charles", "Square Narvik", "13232", "Marseille", "FRANCE","43.3032794","5.3779533"), 7, 100);
-		l4.addStation(new Station(23, "Toulon, Gare de Toulon", "Place de l'Europe", "83000", "Toulon", "FRANCE","43.1280607","5.9278816"), 8, 100);
-		l4.addStation(new Station(24, "Nice, Gare de Nice-Ville", "Avenue Thiers", "06000", "Nice", "FRANCE","43.704612","7.2597443"), 9, 100);
+		l4.addStation(new Station(19, "Troyes, Gare de Troyes", "Rue du Ravelin", "10014", "Troyes", "FRANCE",48.2961167,4.0630401), 2, 100);
+		l4.addStation(new Station(20, "Dijon, Gare de Dijon-Ville", "Cour de la gare", "21000", "Dijon", "FRANCE",47.3235004,5.0249542), 3, 100);
+		l4.addStation(new Station(21, "Valence, Gare de Valence-RhÃ´ne-Alpes-Sud TGV", "Rue Denis Papin", "26000", "Valence", "FRANCE",44.9279752,4.8913464), 5, 100);
+		l4.addStation(new Station(22, "Marseille, Gare de Marseille-Saint-Charles", "Square Narvik", "13232", "Marseille", "FRANCE",43.3032794,5.3779533), 7, 100);
+		l4.addStation(new Station(23, "Toulon, Gare de Toulon", "Place de l'Europe", "83000", "Toulon", "FRANCE",43.1280607,5.9278816), 8, 100);
+		l4.addStation(new Station(24, "Nice, Gare de Nice-Ville", "Avenue Thiers", "06000", "Nice", "FRANCE",43.704612,7.2597443), 9, 100);
 		
-		l5.addStation(new Station(25, "La Rochelle, Gare de La Rochelle-Ville", "Place Pierre Semard", "17000", "La Rochelle", "FRANCE","46.152642","-1.1475027"), 1, 100);
-		l5.addStation(new Station(26, "Limoges, Gare de Limoges-Bénédictins", "Place Maison Dieu", "87036", "Limoges", "FRANCE","45.8362619","1.2653575"), 3, 100);
-		l5.addStation(new Station(27, "Clermont-Ferrand, Gare de Clermont-Ferrand", "Avenue de l'Union Soviétique", "63000", "Clermont-Ferrand", "FRANCE","45.7788661","3.0984426"), 4, 100);
-		l5.addStation(new Station(28, "Grenoble, Gare de Grenoble", "Place de la Gare", "38000", "Grenoble", "FRANCE","45.191506","5.7122818"), 6, 100);
+		l5.addStation(new Station(25, "La Rochelle, Gare de La Rochelle-Ville", "Place Pierre Semard", "17000", "La Rochelle", "FRANCE",46.152642,-1.1475027), 1, 100);
+		l5.addStation(new Station(26, "Limoges, Gare de Limoges-BÃ©nÃ©dictins", "Place Maison Dieu", "87036", "Limoges", "FRANCE",45.8362619,1.2653575), 3, 100);
+		l5.addStation(new Station(27, "Clermont-Ferrand, Gare de Clermont-Ferrand", "Avenue de l'Union SoviÃ©tique", "63000", "Clermont-Ferrand", "FRANCE",45.7788661,3.0984426), 4, 100);
+		l5.addStation(new Station(28, "Grenoble, Gare de Grenoble", "Place de la Gare", "38000", "Grenoble", "FRANCE",45.191506,5.7122818), 6, 100);
 		
-		l6.addStation(new Station(29, "Saint-Ã‰tienne, Gare de Saint-Étienne-Châteaucreux", "Esplanade de France", "42000", "Saint-Étienne", "FRANCE","45.4434262","4.3972351"), 1, 100);
-		l6.addStation(new Station(30, "Annecy, Gare d'Annecy", "Place de la gare", "74000", "Annecy", "FRANCE","45.901763","6.1207468"), 3, 100);
-		l6.addStation(new Station(31, "GenÃ¨ve, Gare de Genève-Cornavin", "Place de Cornavin", "1203", "Genève", "SUISSE","46.2105273"," 6.140853"), 4, 100);
+		l6.addStation(new Station(29, "Saint-Ã‰tienne, Gare de Saint-Etienne-ChÃ¢teaucreux", "Esplanade de France", "42000", "Saint-Etienne", "FRANCE",45.4434262,4.3972351), 1, 100);
+		l6.addStation(new Station(30, "Annecy, Gare d'Annecy", "Place de la gare", "74000", "Annecy", "FRANCE",45.901763,6.1207468), 3, 100);
+		l6.addStation(new Station(31, "GenÃ¨ve, Gare de GenÃ¨ve-Cornavin", "Place de Cornavin", "1203", "Genï¿½ve", "SUISSE",46.2105273,6.140853), 4, 100);
 		
-		l7.addStation(new Station(32, "Toulouse, Gare de Toulouse-Matabiau", "Boulevard Pierre Semard", "31079", "Toulouse", "FRANCE","43.6112684","1.4515309"), 2, 100);
+		l7.addStation(new Station(32, "Toulouse, Gare de Toulouse-Matabiau", "Boulevard Pierre Semard", "31079", "Toulouse", "FRANCE",43.6112684,1.4515309), 2, 100);
 		
-		l8.addStation(new Station(33, "Nîmes, Gare de Nîmes", "Boulevard Sergent Triaire", "30000", "Nîmes", "FRANCE","43.83251","4.3640123"), 2, 100);
-		l8.addStation(new Station(34, "Montpellier, Gare de Montpellier-Saint-Roch", "Place Auguste Gibert", "34000", "Montpellier", "FRANCE","43.6044652","3.8786331"), 3, 100);
+		l8.addStation(new Station(33, "NÃ®mes, Gare de NÃ®mes", "Boulevard Sergent Triaire", "30000", "NÃ®mes", "FRANCE",43.83251,4.3640123), 2, 100);
+		l8.addStation(new Station(34, "Montpellier, Gare de Montpellier-Saint-Roch", "Place Auguste Gibert", "34000", "Montpellier", "FRANCE",43.6044652,3.8786331), 3, 100);
 		
 		lines.add(l1);
 		lines.add(l2);
