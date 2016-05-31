@@ -2,6 +2,7 @@ package com.supinfo.supapi.job;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +13,8 @@ import com.supinfo.supapi.entity.Line;
 import com.supinfo.supapi.entity.SearchStation;
 import com.supinfo.supapi.entity.SearchStep;
 import com.supinfo.supapi.entity.Station;
+import com.supinfo.supapi.entity.Train;
+import com.supinfo.supapi.entity.TrainTrip;
 import com.supinfo.supapi.entity.association.StationLineAssociation;
 import com.supinfo.supapi.enumeration.Sens;
 import com.supinfo.supapi.interfaces.dao.IRailDao;
@@ -30,8 +33,8 @@ public class RailJob implements IRailJob{
 		Timestamp departure_date = search.getDeparture_date();
 		Timestamp arrival_date = search.getArrival_date();
 		
-		Station departure_st = dao.findStation(search.getArrival_station_id());
-		Station arrival_st = dao.findStation(search.getDeparture_station_id());
+		Station departure_st = dao.findStation(search.getDeparture_station_id());
+		Station arrival_st = dao.findStation(search.getArrival_station_id());
 		
 		Line common_line = getCommonLine(departure_st, arrival_st);
 		
@@ -41,7 +44,7 @@ public class RailJob implements IRailJob{
 			//steps = searchStepsViaLines(steps);
 			//TODO : find a path;
 		}else{
-			steps.add(getStep(departure_st, arrival_st, common_line));
+			steps.add(getStep(departure_st, arrival_st, common_line, departure_date));
 		}
 		
 		String toto = "";
@@ -56,11 +59,11 @@ public class RailJob implements IRailJob{
 		return null;
 	}
 
-	private SearchStep getStep(Station departure_st, Station arrival_st, Line line) {
+	private SearchStep getStep(Station departure_st, Station arrival_st, Line line, Timestamp departure) {
 		SearchStep step = new SearchStep();
 		
 		Sens sens;
-		if(departure_st.getId() < arrival_st.getId()){
+		if(departure_st.getId() < arrival_st.getId()){ //Erreur changé
 			sens = Sens.ALLER;
 		}else{
 			sens = Sens.RETOUR;
@@ -75,10 +78,53 @@ public class RailJob implements IRailJob{
 		
 		double distance_end = dao.getDistanceforLine(departure_st.getId(), arrival_st.getId(), line.getId(), sens);
 		
-		double time_start = distance_start/line.getAvg_speed();
-		double time_end = distance_end/line.getAvg_speed();
+		double time_start = (distance_start/line.getAvg_speed())*60;	//Temps en minutes
+		double time_end = (distance_end/line.getAvg_speed())*60;		
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(departure);							//init at desired departure time
+		cal.set(Calendar.MINUTE, (int) -time_start);	//Set time at first station
+		
+		TrainTrip trip = findTrain(line, cal.getTime(), sens);
 		
 		return step;
+	}
+	
+	private TrainTrip findTrain(Line line, Date date, Sens sens){
+		Calendar cal_down = Calendar.getInstance();
+		cal_down.setTime(date);	
+		cal_down.add(Calendar.HOUR, -1);
+		
+		Calendar cal_up = Calendar.getInstance();
+		cal_up.setTime(date);	
+		cal_up.add(Calendar.HOUR, 1);
+		
+		TrainTrip tt = dao.findTrainTrip(line, cal_down, cal_up, sens);
+		if(tt == null){
+			cal_down.set(Calendar.HOUR_OF_DAY, 0);
+			cal_up.set(Calendar.HOUR_OF_DAY, 0);
+			cal_up.add(Calendar.DAY_OF_YEAR, 1);
+			Train t = dao.findAvailableTrain(line, sens, cal_down, cal_up);
+			if(t == null){
+				t = new Train();
+				t.setLine_id(line.getId());
+				t.setSeats(140);
+				dao.createTrain(t);
+			}
+			
+			tt = new TrainTrip();
+			tt.setAller(sens == Sens.ALLER);
+			
+			Calendar new_trip = Calendar.getInstance();
+			new_trip.setTime(date);
+			new_trip.set(Calendar.MINUTE, 0);
+			
+			tt.setDeparture_date(new_trip.getTime().getTime());
+			tt.setTrain(t);
+			dao.createTrainTrip(tt);
+		}
+		
+		return tt;
 	}
 
 	private Line getCommonLine(Station departure_st, Station arrival_st) {

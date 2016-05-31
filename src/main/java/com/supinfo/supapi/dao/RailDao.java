@@ -1,5 +1,6 @@
 package com.supinfo.supapi.dao;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,6 +10,8 @@ import javax.persistence.Query;
 import com.supinfo.supapi.database.PersistenceManager;
 import com.supinfo.supapi.entity.Line;
 import com.supinfo.supapi.entity.Station;
+import com.supinfo.supapi.entity.Train;
+import com.supinfo.supapi.entity.TrainTrip;
 import com.supinfo.supapi.entity.User;
 import com.supinfo.supapi.enumeration.Sens;
 import com.supinfo.supapi.interfaces.dao.IRailDao;
@@ -87,10 +90,64 @@ public class RailDao implements IRailDao{
 			return (long) ((distance != null)?distance:0.0);
 		}
 	}
-
+	
 	@Override
-	public void getStationsFromStartToEndonLine(long id, long departure_id, long arrival_id) {
-		// TODO Auto-generated method stub
+	public TrainTrip findTrainTrip(Line line, Calendar cal_down, Calendar cal_up, Sens sens) {
+		EntityManager em = PersistenceManager.getEntityManager();
 		
+		Query query; 
+		if(sens == Sens.ALLER){
+			query = em.createQuery("SELECT tt FROM TrainTrip AS tt WHERE tt.aller = TRUE AND tt.departure_date < :start AND tt.departure_date > :end");
+		}else{
+			query = em.createQuery("SELECT tt FROM TrainTrip AS tt WHERE tt.aller = FALSE AND tt.departure_date < :start AND tt.departure_date > :end");
+		}
+		query.setParameter("start", cal_down.getTime());
+		query.setParameter("end", cal_up.getTime());
+		
+		List results = query.getResultList();
+		if(results == null || results.isEmpty()){
+			return null;
+		}else{
+			return (TrainTrip) results.get(0);
+		}
+	}
+	
+	@Override
+	public Train findAvailableTrain(Line line, Sens sens, Calendar cal_down, Calendar cal_up) {
+		EntityManager em = PersistenceManager.getEntityManager();
+		
+		Query query; 
+		if(sens == Sens.ALLER){
+			query = em.createQuery("SELECT t FROM Train AS t WHERE t.line_id = :line_id");
+		}else{
+			query = em.createQuery("SELECT t FROM Train AS t WHERE t.line_id = :line_id");
+		}
+		query.setParameter("line_id", line.getId());
+		
+		List results = query.getResultList();
+		if(results == null || results.isEmpty()){
+			return null;
+		}else{
+			return (Train) results.get(0);
+		}
+	}
+	
+	@Override
+	public void createTrain(Train train) {
+		EntityManager em = PersistenceManager.getEntityManager();
+        EntityTransaction et = em.getTransaction();
+        et.begin();
+        et.commit();
+        em.close();
+	}
+	
+	@Override
+	public void createTrainTrip(TrainTrip tt) {
+		EntityManager em = PersistenceManager.getEntityManager();
+        EntityTransaction et = em.getTransaction();
+        et.begin();
+        em.merge(tt);
+        et.commit();
+        em.close();
 	}
 }

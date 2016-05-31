@@ -38,9 +38,7 @@ public class TravelController {
 			rail_job.findTravel(search_station);
 			
 			resp.setHtml_status(200);
-			resp.setHtml_message("OK");
-			//resp.setStations(stations);
-			
+			resp.setHtml_message("OK");	
 			return resp;
 		}catch(Exception ex){
 			resp.setHtml_status(401);
