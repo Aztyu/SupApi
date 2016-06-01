@@ -7,6 +7,7 @@ public interface IUserDao {
     public User getUser(String login, String password);
 	public String getUserSalt(String login);
 	public User getGoogleUser(String email);
+	public User getFacebookUser(String email);
 	boolean userExists(String email);
 	public boolean userCheck(long id, String password);
 	public User getUserById(Long id, String password);
