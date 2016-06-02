@@ -127,4 +127,14 @@ public class Station {
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
+
+	public long getStationOrder(long line_id) {
+		long station_order = -1;
+		for(int i = lines.size()-1; i>=0; i--){
+			if(lines.get(i).getLine().getId() == line_id){
+				return lines.get(i).getStation_order();
+			}
+		}
+		return station_order;
+	}
 }

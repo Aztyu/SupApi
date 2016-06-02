@@ -8,7 +8,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 @Entity
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_EMPTY)
 public class Train {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -18,6 +22,7 @@ public class Train {
 	
 	private long seats;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy="train")
 	private List<TrainTrip> trips;
 

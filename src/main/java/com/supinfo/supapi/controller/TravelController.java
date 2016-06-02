@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.supinfo.supapi.entity.Response;
 import com.supinfo.supapi.entity.SearchStation;
 import com.supinfo.supapi.entity.Station;
+import com.supinfo.supapi.entity.Travel;
 import com.supinfo.supapi.interfaces.job.IRailJob;
 import com.supinfo.supapi.interfaces.job.ITrainJob;
 
@@ -35,8 +36,9 @@ public class TravelController {
 			ObjectMapper mapper = new ObjectMapper();
 			SearchStation search_station = mapper.readValue(json, SearchStation.class);
 			
-			rail_job.findTravel(search_station);
+			Travel travel = rail_job.findTravel(search_station);
 			
+			resp.setTravel(travel);
 			resp.setHtml_status(200);
 			resp.setHtml_message("OK");	
 			return resp;

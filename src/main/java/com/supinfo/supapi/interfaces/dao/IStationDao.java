@@ -1,6 +1,7 @@
 package com.supinfo.supapi.interfaces.dao;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,6 @@ public interface IStationDao {
 	public Station findStation(long arrival_id);
 	public List<Station> getStations();
 	public long getDistanceforLine(long departure_id, long arrival_id, long line_id, Sens sens);
-	public TrainTrip findTrainTrip(Line line, Calendar cal_down, Calendar cal_up, Sens sens);
+	public TrainTrip findTrainTrip(Line line, Date date_down, Date date_up, Sens sens);
 
 }

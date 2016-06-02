@@ -1,6 +1,7 @@
 package com.supinfo.supapi.dao;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -92,17 +93,17 @@ public class RailDao implements IRailDao{
 	}
 	
 	@Override
-	public TrainTrip findTrainTrip(Line line, Calendar cal_down, Calendar cal_up, Sens sens) {
+	public TrainTrip findTrainTrip(Line line, Date date_down, Date date_up, Sens sens) {
 		EntityManager em = PersistenceManager.getEntityManager();
 		
 		Query query; 
 		if(sens == Sens.ALLER){
-			query = em.createQuery("SELECT tt FROM TrainTrip AS tt WHERE tt.aller = TRUE AND tt.departure_date < :start AND tt.departure_date > :end");
+			query = em.createQuery("SELECT tt FROM TrainTrip AS tt WHERE tt.aller = TRUE AND tt.departure_date <= :end AND tt.departure_date >= :start");
 		}else{
-			query = em.createQuery("SELECT tt FROM TrainTrip AS tt WHERE tt.aller = FALSE AND tt.departure_date < :start AND tt.departure_date > :end");
+			query = em.createQuery("SELECT tt FROM TrainTrip AS tt WHERE tt.aller = FALSE AND tt.departure_date < :end AND tt.departure_date > :start");
 		}
-		query.setParameter("start", cal_down.getTime());
-		query.setParameter("end", cal_up.getTime());
+		query.setParameter("start", date_down);
+		query.setParameter("end", date_up);
 		
 		List results = query.getResultList();
 		if(results == null || results.isEmpty()){
@@ -116,13 +117,12 @@ public class RailDao implements IRailDao{
 	public Train findAvailableTrain(Line line, Sens sens, Calendar cal_down, Calendar cal_up) {
 		EntityManager em = PersistenceManager.getEntityManager();
 		
-		Query query; 
-		if(sens == Sens.ALLER){
-			query = em.createQuery("SELECT t FROM Train AS t WHERE t.line_id = :line_id");
-		}else{
-			query = em.createQuery("SELECT t FROM Train AS t WHERE t.line_id = :line_id");
-		}
+		Query query;
+		query = em.createQuery("SELECT t FROM Train as t LEFT JOIN t.trips tt WHERE ((tt.departure_date <= :date_start OR tt.departure_date >= :date_end) OR tt.id IS NULL) AND t.line_id = :line_id GROUP BY t.id order by sum(tt.id) asc");
+		query.setParameter("date_start", cal_down.getTime());
+		query.setParameter("date_end", cal_up.getTime());
 		query.setParameter("line_id", line.getId());
+		query.setMaxResults(1);
 		
 		List results = query.getResultList();
 		if(results == null || results.isEmpty()){

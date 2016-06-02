@@ -10,7 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 @Entity
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_EMPTY)
 public class TrainTrip {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -20,6 +24,7 @@ public class TrainTrip {
 	
 	private boolean aller;
 	
+	@JsonBackReference
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="train_id")
 	private Train train;

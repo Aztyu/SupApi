@@ -15,6 +15,7 @@ import com.supinfo.supapi.entity.SearchStep;
 import com.supinfo.supapi.entity.Station;
 import com.supinfo.supapi.entity.Train;
 import com.supinfo.supapi.entity.TrainTrip;
+import com.supinfo.supapi.entity.Travel;
 import com.supinfo.supapi.entity.association.StationLineAssociation;
 import com.supinfo.supapi.enumeration.Sens;
 import com.supinfo.supapi.interfaces.dao.IRailDao;
@@ -29,7 +30,8 @@ public class RailJob implements IRailJob{
 	//Rail
 	
 	@Override
-	public void findTravel(SearchStation search) {
+	public Travel findTravel(SearchStation search) {
+		Travel travel = new Travel();
 		Timestamp departure_date = search.getDeparture_date();
 		Timestamp arrival_date = search.getArrival_date();
 		
@@ -47,11 +49,13 @@ public class RailJob implements IRailJob{
 			steps.add(getStep(departure_st, arrival_st, common_line, departure_date));
 		}
 		
+		travel.setAller(steps);
+		
 		String toto = "";
 		
+		//Set retour
 		
-		// TODO Auto-generated method stub
-		
+		return travel;
 	}
 
 	private List<Station> searchStepsViaLines(List<Station> steps) {
@@ -63,7 +67,7 @@ public class RailJob implements IRailJob{
 		SearchStep step = new SearchStep();
 		
 		Sens sens;
-		if(departure_st.getId() < arrival_st.getId()){ //Erreur changé
+		if(departure_st.getStationOrder(line.getId()) < arrival_st.getStationOrder(line.getId())){ //Erreur changé
 			sens = Sens.ALLER;
 		}else{
 			sens = Sens.RETOUR;
@@ -86,6 +90,20 @@ public class RailJob implements IRailJob{
 		cal.set(Calendar.MINUTE, (int) -time_start);	//Set time at first station
 		
 		TrainTrip trip = findTrain(line, cal.getTime(), sens);
+		Calendar trip_start = Calendar.getInstance();
+		trip_start.setTime(trip.getDeparture_date());
+		trip_start.add(Calendar.MINUTE, (int)time_start);
+		
+		Calendar trip_end = Calendar.getInstance();
+		trip_end.setTime(trip.getDeparture_date());
+		trip_end.add(Calendar.MINUTE, (int)time_end);
+		
+		step.setTrain_trip(trip);
+		step.setStart(departure_st);
+		step.setStart_time(trip_start.getTime());
+		
+		step.setEnd(arrival_st);
+		step.setEnd_time(trip_end.getTime());
 		
 		return step;
 	}
@@ -99,7 +117,7 @@ public class RailJob implements IRailJob{
 		cal_up.setTime(date);	
 		cal_up.add(Calendar.HOUR, 1);
 		
-		TrainTrip tt = dao.findTrainTrip(line, cal_down, cal_up, sens);
+		TrainTrip tt = dao.findTrainTrip(line, cal_down.getTime(), cal_up.getTime(), sens);
 		if(tt == null){
 			cal_down.set(Calendar.HOUR_OF_DAY, 0);
 			cal_up.set(Calendar.HOUR_OF_DAY, 0);
