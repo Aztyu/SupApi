@@ -60,6 +60,23 @@ public class UserController {
         }		
     }
 	
+	@RequestMapping(value = "user/login/facebook", method = RequestMethod.GET)
+    public @ResponseBody Response loginFacebookUser(Model model,HttpServletRequest request) {
+		Response resp = new Response();
+		try{
+        	User user = user_job.getUserFromFacebook((String)request.getParameter("userID"));
+        	resp.setHtml_message("OK");
+			resp.setHtml_status(200);
+			resp.setUser(user);
+			
+			return resp;
+		}catch(Exception ex){
+			resp.setHtml_message("Unauthorized access");
+			resp.setHtml_status(401);
+			return resp;
+        }		
+    }
+	
 	@RequestMapping(value = "user/register", method = RequestMethod.GET)
     public @ResponseBody Response saveUser(Model model, HttpServletRequest request){
         Response resp = new Response();

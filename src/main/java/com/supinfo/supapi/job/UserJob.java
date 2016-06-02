@@ -105,4 +105,11 @@ public class UserJob implements IUserJob{
 			return null;
 		}
 	}
+
+	@Override
+	public User getUserFromFacebook(String facebook_id)
+			throws GeneralSecurityException, IOException, Exception {
+
+			return null;
+	}
 }

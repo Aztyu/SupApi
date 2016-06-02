@@ -89,4 +89,17 @@ public class UserDao implements IUserDao{
         et.commit();
         em.close();
 	}
+
+	@Override
+	public User getFacebookUser(String email) {
+		EntityManager em = PersistenceManager.getEntityManager();
+		Query query = em.createQuery("SELECT u FROM User AS u WHERE u.email = :email AND u.facebookUser = 1");
+		query.setParameter("email", email);
+		List results = query.getResultList();
+		if(results.isEmpty()){
+			return null;
+		}else{
+			return (User)results.get(0);
+		}
+	}
 }
