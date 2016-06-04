@@ -76,9 +76,9 @@ public class RailDao implements IRailDao{
 		
 		Query query; 
 		if(sens == Sens.ALLER){
-			query = em.createQuery("SELECT SUM(sa.distance) FROM StationLineAssociation AS sa WHERE sa.line.id = :line_id AND sa.station.id > :departure_id AND sa.station.id <= :arrival_id ORDER BY sa.station.id ASC");
+			query = em.createQuery("SELECT SUM(sa.distance) FROM StationLineAssociation AS sa WHERE sa.line.id = :line_id AND sa.station_order > :departure_id AND sa.station_order <= :arrival_id ORDER BY sa.station_order ASC");
 		}else{
-			query = em.createQuery("SELECT SUM(sa.distance) FROM StationLineAssociation AS sa WHERE sa.line.id = :line_id AND sa.station.id >= :departure_id AND sa.station.id < :arrival_id ORDER BY sa.station.id ASC");
+			query = em.createQuery("SELECT SUM(sa.distance) FROM StationLineAssociation AS sa WHERE sa.line.id = :line_id AND sa.station_order <= :departure_id AND sa.station_order > :arrival_id ORDER BY sa.station_order ASC");
 		}
 		query.setParameter("line_id", line_id);
 		query.setParameter("departure_id", departure_id);

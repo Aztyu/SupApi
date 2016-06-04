@@ -40,6 +40,8 @@ public class RailJob implements IRailJob{
 		
 		Line common_line = getCommonLine(departure_st, arrival_st);
 		
+		
+		/* ALLER */
 		List<SearchStep> steps = new ArrayList<SearchStep>();
 		
 		if(common_line == null){
@@ -50,6 +52,20 @@ public class RailJob implements IRailJob{
 		}
 		
 		travel.setAller(steps);
+		
+		/* RETOUR */
+		
+		steps.clear();
+		
+		if(common_line == null){
+			//steps = searchStepsViaLines(steps);
+			//TODO : find a path;
+		}else{
+			steps.add(getStep(arrival_st, departure_st, common_line, arrival_date));
+		}
+		
+		travel.setRetour(steps);
+		
 		
 		String toto = "";
 		
@@ -67,20 +83,25 @@ public class RailJob implements IRailJob{
 		SearchStep step = new SearchStep();
 		
 		Sens sens;
-		if(departure_st.getStationOrder(line.getId()) < arrival_st.getStationOrder(line.getId())){ //Erreur changé
+		long arrival_order = arrival_st.getStationOrder(line.getId());
+		long departure_order = departure_st.getStationOrder(line.getId());
+		
+		if(departure_order < arrival_order){
 			sens = Sens.ALLER;
 		}else{
 			sens = Sens.RETOUR;
 		}
+		
 		double distance_start = 0.0;
+		
 		if(sens == Sens.ALLER){
-			distance_start = dao.getDistanceforLine(1, departure_st.getId(), line.getId(), sens);
+			distance_start = dao.getDistanceforLine(1, departure_order, line.getId(), sens);
 		}else{
-			long station_id = line.getStations().get(line.getStations().size()-1).getStation().getId();
-			distance_start = dao.getDistanceforLine(station_id, departure_st.getId(), line.getId(), sens);
+			long station_id = line.getStations().get(line.getStations().size()-1).getStation_order();
+			distance_start = dao.getDistanceforLine(station_id, departure_order, line.getId(), sens);
 		}
 		
-		double distance_end = dao.getDistanceforLine(departure_st.getId(), arrival_st.getId(), line.getId(), sens);
+		double distance_end = dao.getDistanceforLine(departure_order, arrival_order, line.getId(), sens);
 		
 		double time_start = (distance_start/line.getAvg_speed())*60;	//Temps en minutes
 		double time_end = (distance_end/line.getAvg_speed())*60;		
