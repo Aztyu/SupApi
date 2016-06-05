@@ -53,7 +53,7 @@ public class TrainTrip {
 		this.aller = aller;
 	}
 
-	public void setDeparture_date(long time) {
+	public void setLong_Departure_date(long time) {
 		this.departure_date = new Timestamp(time);
 	}
 

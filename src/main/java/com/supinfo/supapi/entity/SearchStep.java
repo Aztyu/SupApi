@@ -22,8 +22,8 @@ public class SearchStep {
 	}
 
 	public void setStart(Station start) {
-		start.setLines(null);
-		this.start = start;
+		this.start = new Station(start);
+		this.start.setLines(null);
 	}
 
 	public Timestamp getStart_time() {
@@ -39,8 +39,8 @@ public class SearchStep {
 	}
 
 	public void setEnd(Station end) {
-		end.setLines(null);
-		this.end = end;
+		this.end = new Station(end);
+		this.end.setLines(null);
 	}
 
 	public Timestamp getEnd_time() {

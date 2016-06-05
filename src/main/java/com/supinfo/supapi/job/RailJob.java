@@ -55,21 +55,16 @@ public class RailJob implements IRailJob{
 		
 		/* RETOUR */
 		
-		steps.clear();
+		List<SearchStep> steps_retour = new ArrayList<SearchStep>();
 		
 		if(common_line == null){
 			//steps = searchStepsViaLines(steps);
 			//TODO : find a path;
 		}else{
-			steps.add(getStep(arrival_st, departure_st, common_line, arrival_date));
+			steps_retour.add(getStep(arrival_st, departure_st, common_line, arrival_date));
 		}
 		
-		travel.setRetour(steps);
-		
-		
-		String toto = "";
-		
-		//Set retour
+		travel.setRetour(steps_retour);
 		
 		return travel;
 	}
@@ -158,7 +153,7 @@ public class RailJob implements IRailJob{
 			new_trip.setTime(date);
 			new_trip.set(Calendar.MINUTE, 0);
 			
-			tt.setDeparture_date(new_trip.getTime().getTime());
+			tt.setLong_Departure_date(new_trip.getTime().getTime());
 			tt.setTrain(t);
 			dao.createTrainTrip(tt);
 		}

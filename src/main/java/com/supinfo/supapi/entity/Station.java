@@ -55,6 +55,18 @@ public class Station {
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
+	
+	public Station(Station other){
+		this.id = other.getId();
+		this.name = other.getName();
+		this.address = other.getAddress();
+		this.zipcode = other.getZipcode();
+		this.city = other.getCity();
+		this.country = other.getCountry();
+		this.lines = other.getLines();
+		this.latitude = other.getLatitude();
+		this.longitude = other.getLongitude();
+	}
 
 	public long getId() {
 		return id;
