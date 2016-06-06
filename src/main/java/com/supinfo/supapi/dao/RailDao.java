@@ -137,6 +137,7 @@ public class RailDao implements IRailDao{
 		EntityManager em = PersistenceManager.getEntityManager();
         EntityTransaction et = em.getTransaction();
         et.begin();
+        em.persist(train);
         et.commit();
         em.close();
 	}
