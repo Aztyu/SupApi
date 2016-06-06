@@ -13,6 +13,7 @@ import com.supinfo.supapi.entity.Line;
 import com.supinfo.supapi.entity.SearchStation;
 import com.supinfo.supapi.entity.SearchStep;
 import com.supinfo.supapi.entity.Station;
+import com.supinfo.supapi.entity.StationList;
 import com.supinfo.supapi.entity.Train;
 import com.supinfo.supapi.entity.TrainTrip;
 import com.supinfo.supapi.entity.Travel;
@@ -39,13 +40,12 @@ public class RailJob implements IRailJob{
 		Station arrival_st = dao.findStation(search.getArrival_station_id());
 		
 		Line common_line = getCommonLine(departure_st, arrival_st);
-		
-		
+	
 		/* ALLER */
 		List<SearchStep> steps = new ArrayList<SearchStep>();
 		
 		if(common_line == null){
-			//steps = searchStepsViaLines(steps);
+			/*List<StationList> stations =*/ getStationList(departure_st, arrival_st);
 			//TODO : find a path;
 		}else{
 			steps.add(getStep(departure_st, arrival_st, common_line, departure_date));
@@ -69,9 +69,39 @@ public class RailJob implements IRailJob{
 		return travel;
 	}
 
-	private List<Station> searchStepsViaLines(List<Station> steps) {
-		// TODO Auto-generated method stub
+	private StationList getStationList(Station start, Station stop) {
+		long target = stop.getId();
+		List<Long> checked_line = new ArrayList<Long>();
+		
+		
+		checkStation(start, checked_line, target);
+		
 		return null;
+	}
+
+	private void checkStation(Station start, List<Long> checked_line, long target) {
+		// TODO Auto-generated method stub
+		for(StationLineAssociation sla : start.getLines()){
+			long line_id = sla.getLine().getId();
+			
+			if(checked_line.contains(line_id) == false){
+				checked_line.add(line_id);
+				checkLine(sla.getLine(), checked_line, target);
+			}
+		}
+	}
+
+	private void checkLine(Line line, List<Long> checked_line, long target) {
+		for(StationLineAssociation sla : line.getStations()){
+			Station station = sla.getStation();
+			if(station.getId() == target){
+				//return something
+				String toto = "lol";
+			}else{
+				//Continue
+				checkStation(station, checked_line, target);
+			}
+		}
 	}
 
 	private SearchStep getStep(Station departure_st, Station arrival_st, Line line, Timestamp departure) {
@@ -111,7 +141,7 @@ public class RailJob implements IRailJob{
 		trip_start.add(Calendar.MINUTE, (int)time_start);
 		
 		Calendar trip_end = Calendar.getInstance();
-		trip_end.setTime(trip.getDeparture_date());
+		trip_end.setTime(trip_start.getTime());
 		trip_end.add(Calendar.MINUTE, (int)time_end);
 		
 		step.setTrain_trip(trip);
