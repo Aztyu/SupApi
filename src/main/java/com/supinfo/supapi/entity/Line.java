@@ -93,4 +93,14 @@ public class Line {
 		this.stations.add(sla);
 		station.getLines().add(sla);
 	}
+	
+	@Override
+	public boolean equals(Object arg0) {
+		// TODO Auto-generated method stub
+		if(arg0 instanceof Line){
+			Line other = (Line)arg0;
+			return other.getId() == this.id;
+		}
+		return false;
+	}
 }

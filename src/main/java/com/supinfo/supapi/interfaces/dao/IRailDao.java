@@ -12,4 +12,5 @@ import com.supinfo.supapi.enumeration.Sens;
 public interface IRailDao extends ITrainDao, IStationDao {
 
 
+
 }
