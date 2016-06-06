@@ -4,8 +4,10 @@ import java.util.Collection;
 
 import com.supinfo.supapi.entity.SearchStation;
 import com.supinfo.supapi.entity.Station;
+import com.supinfo.supapi.entity.Travel;
 
 public interface IRailJob extends IStationJob, ITrainJob{
+
 
 
 

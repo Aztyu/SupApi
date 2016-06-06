@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.supinfo.supapi.entity.Line;
@@ -317,6 +318,13 @@ public class RailJob implements IRailJob{
 			s.setLines(null);
 		}
 		return stations;
+	}
+
+	@Override
+	public Station findStation(int station_id) {
+		
+		Station station = dao.findStation((long) station_id);
+		return station;
 	}
 	
 }
