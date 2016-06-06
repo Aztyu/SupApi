@@ -86,7 +86,8 @@ public class RailJob implements IRailJob{
 		
 		//loop
 		while(checked_station.size() != nodes.size()){
-			List<Station> match = new ArrayList<Station>();
+			parseChildren(root, checked_station, nodes);
+			/*List<Station> match = new ArrayList<Station>();
 			if(root.getChild().isEmpty()){
 				for(Station s : nodes){
 					for(StationLineAssociation sla : s.getLines()){
@@ -113,13 +114,35 @@ public class RailJob implements IRailJob{
 						}
 					}
 				}
-			}
+			}*/
 		}
 		
 		//
 		//checkStation(start, checked_line, target);
 		
 		return null;
+	}
+
+	private void parseChildren(Node root, List<Station> checked_station, List<Station> nodes) {
+		if(root.getChild().isEmpty()){
+			for(StationLineAssociation sla : root.getValue().getLines()){
+				for(Station s : nodes){
+					if(checked_station.contains(s) == false){
+						for(StationLineAssociation sla1 : s.getLines()){
+							if(sla.getLine().equals(sla1.getLine())){
+								root.addChild(new Node(s, root));
+								checked_station.add(s);
+								break;
+							}
+						}
+					}
+				}
+			}
+		}else{
+			for(Node child : root.getChild()){
+				parseChildren(child, checked_station, nodes);
+			}
+		}
 	}
 
 	private void checkStation(Station start, List<Long> checked_line, long target) {
