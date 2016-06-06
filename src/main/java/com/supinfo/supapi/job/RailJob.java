@@ -73,15 +73,13 @@ public class RailJob implements IRailJob{
 	private StationList getStationList(Station start, Station stop) {
 		long target = stop.getId();
 		List<Long> checked_line = new ArrayList<Long>();
-		
-		
+
 		checkStation(start, checked_line, target);
 		
 		return null;
 	}
 
 	private void checkStation(Station start, List<Long> checked_line, long target) {
-		// TODO Auto-generated method stub
 		for(StationLineAssociation sla : start.getLines()){
 			long line_id = sla.getLine().getId();
 			
@@ -248,6 +246,7 @@ public class RailJob implements IRailJob{
 		l8.addStation(avignon, 1, 100);
 		
 		l8.addStation(perpignan, 4, 100);
+		l7.addStation(perpignan, 3, 100);
 		
 		//Ajout des station uniques par ligne
 		l1.addStation(new Station(7, "Lille, Gare de Lille-Europe", "Place François Mitterrand", "59777", "Lille", "FRANCE",50.6271507,3.0477618), 1, 100);
