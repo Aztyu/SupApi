@@ -98,20 +98,31 @@ public class RailJob implements IRailJob{
 		return null;
 	}
 
-	private void cleanTree(Node root, List<Line> target) {
+	private boolean cleanTree(Node root, List<Line> target) {
+		
 		if(root.getChild().isEmpty()){
 			for(Line line : target){
 				for(StationLineAssociation sla : root.getValue().getLines()){
 					if(sla.getLine().equals(line)){
-						return;
+						return false;
 					}
 				}
 			}
-			root.getParent().getChild().remove(root);
+			return true;
 		}else{
+			List<Node> nodes = new ArrayList<Node>();
+			
 			for(Node node : root.getChild()){
-				cleanTree(node, target);
+				if(cleanTree(node, target)){
+					nodes.add(node);
+				}
 			}
+			
+			root.getChild().removeAll(nodes);
+			if(root.getChild().isEmpty()){
+				return true;
+			}
+			return false;
 		}
 	}
 
