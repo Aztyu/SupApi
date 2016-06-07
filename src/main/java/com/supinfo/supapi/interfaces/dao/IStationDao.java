@@ -19,5 +19,5 @@ public interface IStationDao {
 	public List<Station> getStations();
 	public long getDistanceforLine(long departure_id, long arrival_id, long line_id, Sens sens);
 	public TrainTrip findTrainTrip(Line line, Date date_down, Date date_up, Sens sens);
-
+	public List<Station> getNodeStations();
 }

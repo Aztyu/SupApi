@@ -11,6 +11,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.supinfo.supapi.entity.Line;
+import com.supinfo.supapi.entity.Node;
 import com.supinfo.supapi.entity.SearchStation;
 import com.supinfo.supapi.entity.SearchStep;
 import com.supinfo.supapi.entity.Station;
@@ -46,7 +47,7 @@ public class RailJob implements IRailJob{
 		List<SearchStep> steps = new ArrayList<SearchStep>();
 		
 		if(common_line == null){
-			/*List<StationList> stations =*/ getStationList(departure_st, arrival_st);
+			List<StationList> stations = getStationList(departure_st, arrival_st);
 			//TODO : find a path;
 		}else{
 			steps.add(getStep(departure_st, arrival_st, common_line, departure_date));
@@ -70,13 +71,82 @@ public class RailJob implements IRailJob{
 		return travel;
 	}
 
-	private StationList getStationList(Station start, Station stop) {
-		long target = stop.getId();
-		List<Long> checked_line = new ArrayList<Long>();
-
-		checkStation(start, checked_line, target);
+	private List<StationList> getStationList(Station start, Station stop) {
+		List<Line> target = new ArrayList<Line>();
+		List<Station> checked_station = new ArrayList<Station>();
+		List<Station> nodes = dao.getNodeStations();
+		
+		Node root = new Node(start, null);
+		
+		//Start
+		List<Line> check_line = new ArrayList<Line>();
+		for(StationLineAssociation sla : start.getLines()){
+			check_line.add(sla.getLine());
+		}
+		
+		for(StationLineAssociation sla : stop.getLines()){
+			target.add(sla.getLine());
+		}
+		
+		//loop
+		while(checked_station.size() < nodes.size()){
+			parseChildren(root, checked_station, nodes);
+		}
+		
+		cleanTree(root, target);
 		
 		return null;
+	}
+
+	private boolean cleanTree(Node root, List<Line> target) {
+		
+		if(root.getChild().isEmpty()){
+			for(Line line : target){
+				for(StationLineAssociation sla : root.getValue().getLines()){
+					if(sla.getLine().equals(line)){
+						return false;
+					}
+				}
+			}
+			return true;
+		}else{
+			List<Node> nodes = new ArrayList<Node>();
+			
+			for(Node node : root.getChild()){
+				if(cleanTree(node, target)){
+					nodes.add(node);
+				}
+			}
+			
+			root.getChild().removeAll(nodes);
+			if(root.getChild().isEmpty()){
+				return true;
+			}
+			return false;
+		}
+	}
+
+	private void parseChildren(Node root, List<Station> checked_station, List<Station> nodes) {
+		if(root.getChild().isEmpty()){
+			checked_station.add(root.getValue());
+			for(StationLineAssociation sla : root.getValue().getLines()){
+				for(Station s : nodes){
+					if(checked_station.contains(s) == false){
+						for(StationLineAssociation sla1 : s.getLines()){
+							if(sla.getLine().equals(sla1.getLine())){
+								root.addChild(new Node(s, root));
+								//checked_station.add(s);
+								break;
+							}
+						}
+					}
+				}
+			}
+		}else{
+			for(Node child : root.getChild()){
+				parseChildren(child, checked_station, nodes);
+			}
+		}
 	}
 
 	private void checkStation(Station start, List<Long> checked_line, long target) {

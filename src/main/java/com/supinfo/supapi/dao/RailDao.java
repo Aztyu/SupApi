@@ -151,4 +151,13 @@ public class RailDao implements IRailDao{
         et.commit();
         em.close();
 	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Station> getNodeStations() {
+		EntityManager em = PersistenceManager.getEntityManager();
+		Query query = em.createQuery("SELECT s FROM Station as s LEFT JOIN s.lines sla GROUP BY s.id HAVING count(sla.id) > 1");
+		List<Station> stations = query.getResultList();
+		return stations;
+	}
 }
