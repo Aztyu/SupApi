@@ -35,8 +35,7 @@ public class RailJob implements IRailJob{
 	@Override
 	public List<Travel> findTravel(SearchStation search) {
 		List<Travel> travel_list = new ArrayList<Travel>();
-		
-		Travel travel = new Travel();
+
 		Timestamp departure_date = search.getDeparture_date();
 		Timestamp arrival_date = search.getArrival_date();
 		
@@ -44,37 +43,44 @@ public class RailJob implements IRailJob{
 		Station arrival_st = dao.findStation(search.getArrival_station_id());
 		
 		Line common_line = getCommonLine(departure_st, arrival_st);
-	
-		//if(common_line)
-		
-		/* ALLER */
-		List<SearchStep> steps = new ArrayList<SearchStep>();
-		
-		if(common_line == null){
+
+		if(common_line != null){
+			List<SearchStep> steps = new ArrayList<SearchStep>();
+			
+			Travel travel = new Travel();
+			steps.add(getStep(departure_st, arrival_st, common_line, departure_date));
+			
+			travel.setAller(steps);
+			
+			if(search.isAller_only() == false){
+				List<SearchStep> steps_retour = new ArrayList<SearchStep>();
+				steps_retour.add(getStep(arrival_st, departure_st, common_line, arrival_date));
+				travel.setRetour(steps_retour);
+			}
+			travel_list.add(travel);
+		}else{
 			List<List<StationList>> stations = getStationList(departure_st, arrival_st);
 			
-
-			//whatever
-		}else{
-			
-			
-			steps.add(getStep(departure_st, arrival_st, common_line, departure_date));
-		}
-		
-		travel.setAller(steps);
-		
-		
-		if(search.isAller_only() == false){
-			List<SearchStep> steps_retour = new ArrayList<SearchStep>();
-			
-			if(common_line == null){
-				//steps = searchStepsViaLines(steps);
-				//TODO : find a path;
-			}else{
-				steps_retour.add(getStep(arrival_st, departure_st, common_line, arrival_date));
+			for(List<StationList> lsl : stations){
+				Travel travel = new Travel();
+				List<SearchStep> steps = new ArrayList<SearchStep>();
+				
+				Timestamp last_departure_date = departure_date;
+				for(StationList sl : lsl){				
+					steps.add(getStep(departure_st, arrival_st, common_line, last_departure_date));
+					last_departure_date = steps.get(steps.size()-1).getEnd_time();
+				}
+				
+				travel.setAller(steps);
+				
+				if(search.isAller_only() == false){
+					List<SearchStep> steps_retour = new ArrayList<SearchStep>();
+					steps_retour.add(getStep(arrival_st, departure_st, common_line, arrival_date));
+					travel.setRetour(steps_retour);
+				}
+				travel_list.add(travel);
 			}
-			
-			travel.setRetour(steps_retour);
+
 		}
 		
 		return travel_list;

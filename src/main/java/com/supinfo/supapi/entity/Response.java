@@ -11,7 +11,7 @@ public class Response {
 	
 	private User user;
 	private List<Station> stations;
-	private Travel travel;
+	private List<Travel> travels;
 
 	public int getHtml_status() {
 		return html_status;
@@ -45,11 +45,11 @@ public class Response {
 		this.stations = stations;
 	}
 
-	public Travel getTravel() {
-		return travel;
+	public List<Travel> getTravels() {
+		return travels;
 	}
 
-	public void setTravel(Travel travel) {
-		this.travel = travel;
+	public void setTravels(List<Travel> travels) {
+		this.travels = travels;
 	}
 }
