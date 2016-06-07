@@ -29,7 +29,7 @@ public class Station {
 	private String country;
 	private double latitude;
 	private double longitude;
-	
+	private String description;
 
 	@OneToMany(mappedBy="station")
 	private List<StationLineAssociation> lines;
@@ -44,7 +44,7 @@ public class Station {
 		this.lines = new ArrayList<StationLineAssociation>();
 	}
 	
-	public Station(long id, String name, String address, String zipcode, String city, String country, double latitude, double longitude){
+	public Station(long id, String name, String address, String zipcode, String city, String country, double latitude, double longitude, String description){
 		this.id = id;
 		this.name = name;
 		this.address = address;
@@ -54,6 +54,7 @@ public class Station {
 		this.lines = new ArrayList<StationLineAssociation>();
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.description = description;
 	}
 	
 	public Station(Station other){
@@ -66,6 +67,7 @@ public class Station {
 		this.lines = other.getLines();
 		this.latitude = other.getLatitude();
 		this.longitude = other.getLongitude();
+		this.description = other.getDescription();
 	}
 
 	public long getId() {
@@ -138,6 +140,14 @@ public class Station {
 
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public long getStationOrder(long line_id) {
