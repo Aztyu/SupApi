@@ -6,6 +6,14 @@ public class StationList {
 	private Station stop;
 	
 	private long line;
+	
+	StationList(StationList other){
+		this.start = other.getStart();
+		this.stop = other.getStop();
+	}
+
+	public StationList() {
+	}
 
 	public Station getStart() {
 		return start;

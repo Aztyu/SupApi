@@ -33,7 +33,9 @@ public class RailJob implements IRailJob{
 	//Rail
 	
 	@Override
-	public Travel findTravel(SearchStation search) {
+	public List<Travel> findTravel(SearchStation search) {
+		List<Travel> travel_list = new ArrayList<Travel>();
+		
 		Travel travel = new Travel();
 		Timestamp departure_date = search.getDeparture_date();
 		Timestamp arrival_date = search.getArrival_date();
@@ -43,35 +45,42 @@ public class RailJob implements IRailJob{
 		
 		Line common_line = getCommonLine(departure_st, arrival_st);
 	
+		//if(common_line)
+		
 		/* ALLER */
 		List<SearchStep> steps = new ArrayList<SearchStep>();
 		
 		if(common_line == null){
-			List<StationList> stations = getStationList(departure_st, arrival_st);
-			//TODO : find a path;
+			List<List<StationList>> stations = getStationList(departure_st, arrival_st);
+			
+
+			//whatever
 		}else{
+			
+			
 			steps.add(getStep(departure_st, arrival_st, common_line, departure_date));
 		}
 		
 		travel.setAller(steps);
 		
-		/* RETOUR */
 		
-		List<SearchStep> steps_retour = new ArrayList<SearchStep>();
-		
-		if(common_line == null){
-			//steps = searchStepsViaLines(steps);
-			//TODO : find a path;
-		}else{
-			steps_retour.add(getStep(arrival_st, departure_st, common_line, arrival_date));
+		if(search.isAller_only() == false){
+			List<SearchStep> steps_retour = new ArrayList<SearchStep>();
+			
+			if(common_line == null){
+				//steps = searchStepsViaLines(steps);
+				//TODO : find a path;
+			}else{
+				steps_retour.add(getStep(arrival_st, departure_st, common_line, arrival_date));
+			}
+			
+			travel.setRetour(steps_retour);
 		}
 		
-		travel.setRetour(steps_retour);
-		
-		return travel;
+		return travel_list;
 	}
 
-	private List<StationList> getStationList(Station start, Station stop) {
+	private List<List<StationList>> getStationList(Station start, Station stop) {
 		List<Line> target = new ArrayList<Line>();
 		List<Station> checked_station = new ArrayList<Station>();
 		List<Station> nodes = dao.getNodeStations();
@@ -95,11 +104,19 @@ public class RailJob implements IRailJob{
 		
 		cleanTree(root, target);
 		
+		List<List<StationList>> liste = root.getList();
+		
+		return liste;
+	}
+
+	private List<StationList> generateListStation(Node root, Station start, Station stop) {
+		// TODO Auto-generated method stub
+		
+		
 		return null;
 	}
 
-	private boolean cleanTree(Node root, List<Line> target) {
-		
+	private boolean cleanTree(Node root, List<Line> target) {	
 		if(root.getChild().isEmpty()){
 			for(Line line : target){
 				for(StationLineAssociation sla : root.getValue().getLines()){
@@ -110,17 +127,30 @@ public class RailJob implements IRailJob{
 			}
 			return true;
 		}else{
-			List<Node> nodes = new ArrayList<Node>();
-			
-			for(Node node : root.getChild()){
-				if(cleanTree(node, target)){
-					nodes.add(node);
+			boolean hasTarget = false;
+			for(Line line : target){
+				for(StationLineAssociation sla : root.getValue().getLines()){
+					if(sla.getLine().equals(line)){
+						hasTarget = true;
+					}
 				}
 			}
 			
-			root.getChild().removeAll(nodes);
-			if(root.getChild().isEmpty()){
-				return true;
+			if(hasTarget){
+				root.getChild().clear();
+			}else{
+				List<Node> nodes = new ArrayList<Node>();
+				
+				for(Node node : root.getChild()){
+					if(cleanTree(node, target)){
+						nodes.add(node);
+					}
+				}
+				
+				root.getChild().removeAll(nodes);
+				if(root.getChild().isEmpty()){
+					return true;
+				}
 			}
 			return false;
 		}
@@ -135,7 +165,6 @@ public class RailJob implements IRailJob{
 						for(StationLineAssociation sla1 : s.getLines()){
 							if(sla.getLine().equals(sla1.getLine())){
 								root.addChild(new Node(s, root));
-								//checked_station.add(s);
 								break;
 							}
 						}
@@ -145,30 +174,6 @@ public class RailJob implements IRailJob{
 		}else{
 			for(Node child : root.getChild()){
 				parseChildren(child, checked_station, nodes);
-			}
-		}
-	}
-
-	private void checkStation(Station start, List<Long> checked_line, long target) {
-		for(StationLineAssociation sla : start.getLines()){
-			long line_id = sla.getLine().getId();
-			
-			if(checked_line.contains(line_id) == false){
-				checked_line.add(line_id);
-				checkLine(sla.getLine(), checked_line, target);
-			}
-		}
-	}
-
-	private void checkLine(Line line, List<Long> checked_line, long target) {
-		for(StationLineAssociation sla : line.getStations()){
-			Station station = sla.getStation();
-			if(station.getId() == target){
-				//return something
-				String toto = "lol";
-			}else{
-				//Continue
-				checkStation(station, checked_line, target);
 			}
 		}
 	}
