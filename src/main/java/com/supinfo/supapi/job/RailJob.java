@@ -72,7 +72,7 @@ public class RailJob implements IRailJob{
 	}
 
 	private List<StationList> getStationList(Station start, Station stop) {
-		long target = stop.getId();
+		List<Line> target = new ArrayList<Line>();
 		List<Station> checked_station = new ArrayList<Station>();
 		List<Station> nodes = dao.getNodeStations();
 		
@@ -84,54 +84,47 @@ public class RailJob implements IRailJob{
 			check_line.add(sla.getLine());
 		}
 		
-		//loop
-		while(checked_station.size() != nodes.size()){
-			parseChildren(root, checked_station, nodes);
-			/*List<Station> match = new ArrayList<Station>();
-			if(root.getChild().isEmpty()){
-				for(Station s : nodes){
-					for(StationLineAssociation sla : s.getLines()){
-						if(check_line.contains(sla.getLine())){
-							root.addChild(new Node(s, root));
-							checked_station.add(s);
-							break;
-						}
-					}
-				}
-			}else{
-				for(Node node : root.getChild()){
-					for(StationLineAssociation sla : node.getValue().getLines()){
-						for(Station s : nodes){
-							if(checked_station.contains(s) == false){
-								for(StationLineAssociation sla1 : s.getLines()){
-									if(sla.getLine().equals(sla1.getLine())){
-										node.addChild(new Node(s, node));
-										checked_station.add(s);
-										break;
-									}
-								}
-							}
-						}
-					}
-				}
-			}*/
+		for(StationLineAssociation sla : stop.getLines()){
+			target.add(sla.getLine());
 		}
 		
-		//
-		//checkStation(start, checked_line, target);
+		//loop
+		while(checked_station.size() < nodes.size()){
+			parseChildren(root, checked_station, nodes);
+		}
+		
+		cleanTree(root, target);
 		
 		return null;
 	}
 
+	private void cleanTree(Node root, List<Line> target) {
+		if(root.getChild().isEmpty()){
+			for(Line line : target){
+				for(StationLineAssociation sla : root.getValue().getLines()){
+					if(sla.getLine().equals(line)){
+						return;
+					}
+				}
+			}
+			root.getParent().getChild().remove(root);
+		}else{
+			for(Node node : root.getChild()){
+				cleanTree(node, target);
+			}
+		}
+	}
+
 	private void parseChildren(Node root, List<Station> checked_station, List<Station> nodes) {
 		if(root.getChild().isEmpty()){
+			checked_station.add(root.getValue());
 			for(StationLineAssociation sla : root.getValue().getLines()){
 				for(Station s : nodes){
 					if(checked_station.contains(s) == false){
 						for(StationLineAssociation sla1 : s.getLines()){
 							if(sla.getLine().equals(sla1.getLine())){
 								root.addChild(new Node(s, root));
-								checked_station.add(s);
+								//checked_station.add(s);
 								break;
 							}
 						}
