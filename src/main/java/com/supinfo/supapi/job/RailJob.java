@@ -92,8 +92,7 @@ public class RailJob implements IRailJob{
 		List<Station> nodes = dao.getNodeStations();
 		
 		Node root = new Node(start, null);
-		
-		//Start
+
 		List<Line> check_line = new ArrayList<Line>();
 		for(StationLineAssociation sla : start.getLines()){
 			check_line.add(sla.getLine());
@@ -103,23 +102,13 @@ public class RailJob implements IRailJob{
 			target.add(sla.getLine());
 		}
 		
-		//loop
 		while(checked_station.size() < nodes.size()){
 			parseChildren(root, checked_station, nodes);
 		}
 		
 		cleanTree(root, target);
-		
 		List<List<StationList>> liste = root.getList();
-		
 		return liste;
-	}
-
-	private List<StationList> generateListStation(Node root, Station start, Station stop) {
-		// TODO Auto-generated method stub
-		
-		
-		return null;
 	}
 
 	private boolean cleanTree(Node root, List<Line> target) {	
