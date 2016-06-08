@@ -18,14 +18,15 @@ import com.supinfo.supapi.entity.association.StationLineAssociation;
 //@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
 public class Line {
 	@Id
-	private long id;
-	
+	private long id;	
 	private String reference;
 	private String name;
 	private Double avg_speed;
+	private double price;
 	
 	@OneToMany(mappedBy="line", cascade = CascadeType.ALL)
 	private List<StationLineAssociation> stations;
+	
 	
 	public Line(){
 		this.id = -1;

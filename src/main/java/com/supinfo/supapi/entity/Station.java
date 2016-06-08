@@ -3,6 +3,7 @@ package com.supinfo.supapi.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,13 +23,18 @@ public class Station {
 	@Id
 	private long id;
 	
+	@Column(columnDefinition = "TEXT")
 	private String name;
+	
+	@Column(columnDefinition = "TEXT")
 	private String address;
 	private String zipcode;
 	private String city;
 	private String country;
 	private double latitude;
 	private double longitude;
+	
+	@Column(columnDefinition = "TEXT")
 	private String description;
 
 	@OneToMany(mappedBy="station")
