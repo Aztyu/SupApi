@@ -22,8 +22,7 @@ public class Line {
 	
 	private String reference;
 	private String name;
-	private double avg_speed;
-	private double price;
+	private Double avg_speed;
 	
 	@OneToMany(mappedBy="line", cascade = CascadeType.ALL)
 	private List<StationLineAssociation> stations;
@@ -33,16 +32,14 @@ public class Line {
 		this.name = new String();
 		this.reference = new String();
 		this.avg_speed = 0.0;
-		this.price = 0.0;
 		this.stations = new ArrayList<StationLineAssociation>(); 
 	}
 	
-	public Line(int id, String reference, String name, double avg_speed, double price){
+	public Line(int id, String reference, String name, double avg_speed){
 		this.id = id;
 		this.name = name;
 		this.reference = reference;
 		this.avg_speed = avg_speed;
-		this.price = price;
 		this.stations = new ArrayList<StationLineAssociation>(); 
 	}
 	
@@ -105,19 +102,5 @@ public class Line {
 			return other.getId() == this.id;
 		}
 		return false;
-	}
-	
-	
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public void setAvg_speed(double avg_speed) {
-		this.avg_speed = avg_speed;
 	}
 }
