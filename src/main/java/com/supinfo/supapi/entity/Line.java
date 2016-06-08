@@ -36,11 +36,12 @@ public class Line {
 		this.stations = new ArrayList<StationLineAssociation>(); 
 	}
 	
-	public Line(int id, String reference, String name, double avg_speed){
+	public Line(int id, String reference, String name, double avg_speed, double price){
 		this.id = id;
 		this.name = name;
 		this.reference = reference;
 		this.avg_speed = avg_speed;
+		this.price = price;
 		this.stations = new ArrayList<StationLineAssociation>(); 
 	}
 	
