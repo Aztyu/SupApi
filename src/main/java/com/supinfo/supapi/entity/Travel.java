@@ -63,6 +63,7 @@ public class Travel {
 		for(SearchStep ss : aller){
 			price += ss.getPrice();
 		}
+		this.price = price;
 	}
 	
 	public void calculateTime(){
