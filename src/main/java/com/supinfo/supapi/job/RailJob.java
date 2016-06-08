@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -76,13 +77,19 @@ public class RailJob implements IRailJob{
 				
 				Timestamp last_departure_date = departure_date;
 				for(StationList sl : lsl){				
-					steps.add(getStep(departure_st, arrival_st, common_line, last_departure_date));
+					steps.add(getStep(sl.getStart(), sl.getStop(), sl.getCommon_line(), last_departure_date));
 					last_departure_date = steps.get(steps.size()-1).getEnd_time();
 				}
 				
 				travel.setAller(steps);
 				
 				if(search.isAller_only() == false){
+					Collections.reverse(lsl);
+					for(StationList sl : lsl){				
+						steps.add(getStep(sl.getStop(), sl.getStop(), sl.getCommon_line(), last_departure_date));
+						last_departure_date = steps.get(steps.size()-1).getEnd_time();
+					}
+					
 					List<SearchStep> steps_retour = new ArrayList<SearchStep>();
 					steps_retour.add(getStep(arrival_st, departure_st, common_line, arrival_date));
 					travel.setRetour(steps_retour);

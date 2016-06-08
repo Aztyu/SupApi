@@ -1,5 +1,7 @@
 package com.supinfo.supapi.entity;
 
+import com.supinfo.supapi.entity.association.StationLineAssociation;
+
 public class StationList {
 	private Station start;
 	
@@ -37,6 +39,17 @@ public class StationList {
 
 	public void setLine(long line) {
 		this.line = line;
+	}
+
+	public Line getCommon_line() {
+		for(StationLineAssociation sla : start.getLines()){
+			for(StationLineAssociation sla1 : stop.getLines()){
+				if(sla.getLine().equals(sla1.getLine())){
+					return sla.getLine();
+				}
+			}
+		}
+		return null;
 	}
 	
 	
