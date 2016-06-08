@@ -84,14 +84,14 @@ public class RailJob implements IRailJob{
 				travel.setAller(steps);
 				
 				if(search.isAller_only() == false){
-					Collections.reverse(lsl);
-					for(StationList sl : lsl){				
-						steps.add(getStep(sl.getStop(), sl.getStop(), sl.getCommon_line(), last_departure_date));
-						last_departure_date = steps.get(steps.size()-1).getEnd_time();
-					}
+					last_departure_date = arrival_date;
 					
 					List<SearchStep> steps_retour = new ArrayList<SearchStep>();
-					steps_retour.add(getStep(arrival_st, departure_st, common_line, arrival_date));
+					Collections.reverse(lsl);
+					for(StationList sl : lsl){				
+						steps_retour.add(getStep(sl.getStop(), sl.getStart(), sl.getCommon_line(), last_departure_date));
+						last_departure_date = steps_retour.get(steps_retour.size()-1).getEnd_time();
+					}
 					travel.setRetour(steps_retour);
 				}
 				
