@@ -57,6 +57,9 @@ public class RailJob implements IRailJob{
 				steps_retour.add(getStep(arrival_st, departure_st, common_line, arrival_date));
 				travel.setRetour(steps_retour);
 			}
+			
+			travel.calculatePrice();
+			travel.calculateTime();
 			travel_list.add(travel);
 		}else{
 			List<List<StationList>> stations = getStationList(departure_st, arrival_st);
@@ -77,6 +80,9 @@ public class RailJob implements IRailJob{
 					steps_retour.add(getStep(arrival_st, departure_st, common_line, arrival_date));
 					travel.setRetour(steps_retour);
 				}
+				
+				travel.calculatePrice();
+				travel.calculateTime();
 				travel_list.add(travel);
 			}
 
@@ -218,6 +224,9 @@ public class RailJob implements IRailJob{
 		
 		step.setEnd(arrival_st);
 		step.setEnd_time(trip_end.getTime());
+		
+		step.setPrice(line.getPrice()*distance_end);
+		step.setTime((int)time_end);
 		
 		return step;
 	}

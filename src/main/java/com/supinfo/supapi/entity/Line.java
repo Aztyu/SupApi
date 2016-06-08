@@ -107,8 +107,6 @@ public class Line {
 		return false;
 	}
 	
-	
-
 	public double getPrice() {
 		return price;
 	}
