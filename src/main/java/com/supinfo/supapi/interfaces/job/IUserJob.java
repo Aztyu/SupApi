@@ -13,5 +13,5 @@ public interface IUserJob {
 	public void createUser(User user, String password) throws Exception;
 	public void editUser(User user, String password) throws Exception;
 	public User getUserFromGoogle(String google_id) throws GeneralSecurityException, IOException, Exception;
-	public User getUserFromFacebook(String facebook_id) throws GeneralSecurityException, IOException, Exception;
+	public User getUserFromFacebook(String id, String email, String name) throws GeneralSecurityException, IOException, Exception;
 }

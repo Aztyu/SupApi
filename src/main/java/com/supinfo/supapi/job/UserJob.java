@@ -107,9 +107,31 @@ public class UserJob implements IUserJob{
 	}
 
 	@Override
-	public User getUserFromFacebook(String facebook_id)
-			throws GeneralSecurityException, IOException, Exception {
-
-			return null;
+	public User getUserFromFacebook(String id, String email, String name) throws Exception {
+		
+		User user = dao.getFacebookUser(email);
+		
+		if(user == null){
+			user = new User();
+			user.setFacebookUser(true);
+			user.setEmail(email);
+			
+			String salt = BaseUtil.generateSalt();
+	        String hash = BaseUtil.getSaltedPassword(salt, BaseUtil.generatePassword());
+		
+	        
+			user.setFirstName(name);
+			user.setLastName(name);
+			
+	        user.setSalt(salt);
+	        user.setPassword(hash);
+		
+			if(!dao.userExists(user.getEmail())){
+	        	dao.createUser(user);
+	        }else{
+	        	throw new Exception();
+	        }
+		}
+	  	return user;
 	}
 }

@@ -64,7 +64,7 @@ public class UserController {
     public @ResponseBody Response loginFacebookUser(Model model,HttpServletRequest request) {
 		Response resp = new Response();
 		try{
-        	User user = user_job.getUserFromFacebook((String)request.getParameter("userID"));
+        	User user = user_job.getUserFromFacebook(request.getParameter("id"), request.getParameter("email"), request.getParameter("name"));
         	resp.setHtml_message("OK");
 			resp.setHtml_status(200);
 			resp.setUser(user);
@@ -84,7 +84,6 @@ public class UserController {
 	        User u = new User();
 	        
 	        u.setFirstName(request.getParameter("firstname"));
-	        u.setLastName(request.getParameter("lastname"));
 	        u.setEmail(request.getParameter("email"));
 	        
 	        user_job.createUser(u, request.getParameter("password"));
