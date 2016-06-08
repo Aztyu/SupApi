@@ -15,6 +15,8 @@ public class SearchStation {
 	private Timestamp arrival_date; //L' heure de départ du trajet retour
 	
 	private int passager;
+
+	private boolean aller_only;
 	
 	public void setDeparture_date(String departure_date, String time) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -80,5 +82,13 @@ public class SearchStation {
 
 	public void setPassager(int passager) {
 		this.passager = passager;
+	}
+
+	public boolean isAller_only() {
+		return aller_only;
+	}
+
+	public void setAller_only(boolean aller_only) {
+		this.aller_only = aller_only;
 	}
 }

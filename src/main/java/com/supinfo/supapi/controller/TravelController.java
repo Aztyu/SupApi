@@ -38,9 +38,9 @@ public class TravelController {
 			ObjectMapper mapper = new ObjectMapper();
 			SearchStation search_station = mapper.readValue(json, SearchStation.class);
 			
-			Travel travel = rail_job.findTravel(search_station);
+			List<Travel> travel = rail_job.findTravel(search_station);
 			
-			resp.setTravel(travel);
+			resp.setTravels(travel);
 			resp.setHtml_status(200);
 			resp.setHtml_message("OK");	
 			return resp;
