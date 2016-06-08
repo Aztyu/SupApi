@@ -12,7 +12,7 @@ public class Response {
 	private User user;
 	private List<Station> stations;
 	private List<Travel> travels;
-
+	private Station station;
 	public int getHtml_status() {
 		return html_status;
 	}
