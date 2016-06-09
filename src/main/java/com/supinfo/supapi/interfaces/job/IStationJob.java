@@ -9,5 +9,5 @@ public interface IStationJob {
 	public List<Station> searchStationByName(String search);
 	public List<Station> getStations();
 	Station findStation(int station_id);
-
+	public void createReservation(Travel travel, long user_id);
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.supinfo.supapi.entity.Line;
 import com.supinfo.supapi.entity.Node;
+import com.supinfo.supapi.entity.Reservation;
 import com.supinfo.supapi.entity.SearchStation;
 import com.supinfo.supapi.entity.SearchStep;
 import com.supinfo.supapi.entity.Station;
@@ -20,9 +21,11 @@ import com.supinfo.supapi.entity.StationList;
 import com.supinfo.supapi.entity.Train;
 import com.supinfo.supapi.entity.TrainTrip;
 import com.supinfo.supapi.entity.Travel;
+import com.supinfo.supapi.entity.User;
 import com.supinfo.supapi.entity.association.StationLineAssociation;
 import com.supinfo.supapi.enumeration.Sens;
 import com.supinfo.supapi.interfaces.dao.IRailDao;
+import com.supinfo.supapi.interfaces.dao.IUserDao;
 import com.supinfo.supapi.interfaces.job.IRailJob;
 
 
@@ -30,6 +33,9 @@ public class RailJob implements IRailJob{
 	
 	@Autowired
 	private IRailDao dao;
+	
+	@Autowired
+	private IUserDao u_dao;
 	
 	//Rail
 	
@@ -416,6 +422,14 @@ public class RailJob implements IRailJob{
 		
 		Station station = dao.findStation((long) station_id);
 		return station;
+	}
+
+	@Override
+	public void createReservation(Travel travel, long user_id) {
+		User u = u_dao.getUserById(user_id);
+		
+		Reservation reserv = new Reservation();
+		
 	}
 	
 }

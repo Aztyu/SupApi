@@ -2,14 +2,24 @@ package com.supinfo.supapi.entity;
 
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.supinfo.supapi.enumeration.Sens;
 
+@Entity
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_EMPTY)
 public class Travel {
-	private List<SearchStep> aller;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private long id;	
 	
+	private List<SearchStep> aller;
+
 	private List<SearchStep> retour;
 	
 	private int minutes_aller;
@@ -62,6 +72,9 @@ public class Travel {
 		double price = 0.0;
 		for(SearchStep ss : aller){
 			price += ss.getPrice();
+		}
+		if(!retour.isEmpty()){
+			price *= 2;
 		}
 		this.price = price;
 	}

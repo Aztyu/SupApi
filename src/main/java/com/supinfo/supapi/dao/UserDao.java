@@ -102,4 +102,12 @@ public class UserDao implements IUserDao{
 			return (User)results.get(0);
 		}
 	}
+
+	@Override
+	public User getUserById(long user_id) {
+		EntityManager em = PersistenceManager.getEntityManager();
+		Query query = em.createQuery("SELECT u FROM User AS u WHERE u.id = :id");
+		query.setParameter("id", user_id);		
+		return (User)query.getSingleResult();
+	}
 }

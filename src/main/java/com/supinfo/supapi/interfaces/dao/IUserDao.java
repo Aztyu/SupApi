@@ -12,4 +12,5 @@ public interface IUserDao {
 	public boolean userCheck(long id, String password);
 	public User getUserById(Long id, String password);
 	public void updateUser(User user);
+	public User getUserById(long user_id);
 }

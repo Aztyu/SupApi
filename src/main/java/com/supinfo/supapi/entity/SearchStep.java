@@ -3,16 +3,40 @@ package com.supinfo.supapi.entity;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+@Entity
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_EMPTY)
 public class SearchStep {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private long id;
+	
+	@ManyToOne
+    @JoinColumn(name = "start_id")
 	Station start;
+	
 	Timestamp start_time;
+	
+	@ManyToOne
+    @JoinColumn(name = "end_id")
 	Station end;
+	
 	Timestamp end_time;
+	
+	@ManyToOne
+    @JoinColumn(name = "start_id")
 	TrainTrip train_trip;
+	
 	double price;
+	
 	int time;
 
 	public Station getStart() {

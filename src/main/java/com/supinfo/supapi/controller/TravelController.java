@@ -51,5 +51,24 @@ public class TravelController {
 		}
 	}
 	
-	
+	@RequestMapping(value = "/travel/buy/{user_id}", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public @ResponseBody Response buyTravel(Model model, HttpServletRequest request, @PathVariable long user_id, @RequestBody String json) {
+		Response resp = new Response();
+		try{
+			String debug = json;
+			
+			ObjectMapper mapper = new ObjectMapper();
+			Travel travel = mapper.readValue(json, Travel.class);
+			
+			rail_job.createReservation(travel, user_id);
+			
+			resp.setHtml_status(200);
+			resp.setHtml_message("OK");	
+			return resp;
+		}catch(Exception ex){
+			resp.setHtml_status(401);
+			resp.setHtml_message("OK");
+			return resp;
+		}
+	}
 }
