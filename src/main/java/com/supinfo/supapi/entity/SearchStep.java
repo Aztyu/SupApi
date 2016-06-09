@@ -20,19 +20,19 @@ public class SearchStep {
 	private long id;
 	
 	@ManyToOne
-    @JoinColumn(name = "start_id")
+    @JoinColumn(name = "start_id", insertable =  false, updatable = false)
 	Station start;
 	
 	Timestamp start_time;
 	
 	@ManyToOne
-    @JoinColumn(name = "end_id")
+    @JoinColumn(name = "end_id", insertable =  false, updatable = false)
 	Station end;
 	
 	Timestamp end_time;
 	
 	@ManyToOne
-    @JoinColumn(name = "start_id")
+    @JoinColumn(name = "trip_id", insertable =  false, updatable = false)
 	TrainTrip train_trip;
 	
 	double price;

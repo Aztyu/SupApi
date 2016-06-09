@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
@@ -18,14 +21,19 @@ public class Travel {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;	
 	
+	@OneToMany
 	private List<SearchStep> aller;
 
+	@OneToMany
 	private List<SearchStep> retour;
 	
+	@Transient
 	private int minutes_aller;
 	
+	@Transient
 	private int minutes_retour;
 	
+	@Transient
 	private double price;
 
 	public List<SearchStep> getAller() {

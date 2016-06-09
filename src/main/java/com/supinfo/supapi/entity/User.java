@@ -4,11 +4,13 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Generated;
 
@@ -27,6 +29,9 @@ public class User {
 	private int phone;
 	private String password;
 	private String salt;
+	
+	@OneToMany
+	private List<Reservation> reservations;
 	
 	private boolean googleUser;
 	private boolean facebookUser;
@@ -109,5 +114,11 @@ public class User {
 	}
 	public void setPhone(int phone) {
 		this.phone = phone;
+	}
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
 	}
 }

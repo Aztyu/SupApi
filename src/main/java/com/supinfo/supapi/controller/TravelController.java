@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.supinfo.supapi.entity.Reservation;
 import com.supinfo.supapi.entity.Response;
 import com.supinfo.supapi.entity.SearchStation;
 import com.supinfo.supapi.entity.Station;
@@ -60,8 +61,12 @@ public class TravelController {
 			ObjectMapper mapper = new ObjectMapper();
 			Travel travel = mapper.readValue(json, Travel.class);
 			
-			rail_job.createReservation(travel, user_id);
+			Reservation r = rail_job.createReservation(travel, user_id);
+			if(r == null){
+				throw new Exception();
+			}
 			
+			resp.setReservation(r);
 			resp.setHtml_status(200);
 			resp.setHtml_message("OK");	
 			return resp;

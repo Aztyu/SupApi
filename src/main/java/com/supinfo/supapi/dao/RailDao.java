@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 import com.supinfo.supapi.database.PersistenceManager;
 import com.supinfo.supapi.entity.Line;
+import com.supinfo.supapi.entity.Reservation;
 import com.supinfo.supapi.entity.Station;
 import com.supinfo.supapi.entity.Train;
 import com.supinfo.supapi.entity.TrainTrip;
@@ -159,5 +160,15 @@ public class RailDao implements IRailDao{
 		Query query = em.createQuery("SELECT s FROM Station as s LEFT JOIN s.lines sla GROUP BY s.id HAVING count(sla.id) > 1");
 		List<Station> stations = query.getResultList();
 		return stations;
+	}
+	
+	@Override
+	public void saveReservation(Reservation reserv){
+		EntityManager em = PersistenceManager.getEntityManager();
+        EntityTransaction et = em.getTransaction();
+        et.begin();
+        em.merge(reserv);
+        et.commit();
+        em.close();
 	}
 }

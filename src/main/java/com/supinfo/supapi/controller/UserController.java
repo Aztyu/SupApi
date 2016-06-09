@@ -30,6 +30,7 @@ public class UserController {
 			String password = request.getParameter("password");
 			
 			User user = user_job.getUser((String)request.getParameter("login"), (String)request.getParameter("password"));
+			user.setReservations(null);
         	
 			resp.setHtml_message("OK");
 			resp.setHtml_status(200);
@@ -47,6 +48,7 @@ public class UserController {
 		Response resp = new Response();
 		try{
         	User user = user_job.getUserFromGoogle((String)request.getParameter("google_id"));
+        	user.setReservations(null);
         	
         	resp.setHtml_message("OK");
 			resp.setHtml_status(200);
@@ -65,6 +67,8 @@ public class UserController {
 		Response resp = new Response();
 		try{
         	User user = user_job.getUserFromFacebook(request.getParameter("id"), request.getParameter("email"), request.getParameter("name"));
+        	user.setReservations(null);
+        	
         	resp.setHtml_message("OK");
 			resp.setHtml_status(200);
 			resp.setUser(user);
@@ -115,6 +119,7 @@ public class UserController {
             u.setPhone(Integer.parseInt(request.getParameter("phone")));
             	        
 	        user_job.editUser(u, request.getParameter("password"));
+	        u.setReservations(null);
 	        
 	        resp.setHtml_message("OK");
 			resp.setHtml_status(200);
