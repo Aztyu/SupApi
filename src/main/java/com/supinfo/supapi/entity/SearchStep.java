@@ -2,6 +2,7 @@ package com.supinfo.supapi.entity;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
@@ -19,21 +21,26 @@ public class SearchStep {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	
+	@OneToOne
+	private Travel allerTravel;
+	
+	@OneToOne
+	private Travel retourTravel;
+	
 	@ManyToOne
     @JoinColumn(name = "start_id", insertable =  false, updatable = false)
-	Station start;
+	private Station start;
 	
-	Timestamp start_time;
+	private Timestamp start_time;
 	
 	@ManyToOne
     @JoinColumn(name = "end_id", insertable =  false, updatable = false)
-	Station end;
+	private Station end;
 	
-	Timestamp end_time;
+	private Timestamp end_time;
 	
 	@ManyToOne
-    @JoinColumn(name = "trip_id", insertable =  false, updatable = false)
-	TrainTrip train_trip;
+	private TrainTrip train_trip;
 	
 	double price;
 	

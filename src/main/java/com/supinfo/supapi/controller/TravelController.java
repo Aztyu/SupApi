@@ -73,6 +73,7 @@ public class TravelController {
 		}catch(Exception ex){
 			resp.setHtml_status(401);
 			resp.setHtml_message("OK");
+			ex.printStackTrace();
 			return resp;
 		}
 	}

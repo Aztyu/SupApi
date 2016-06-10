@@ -14,6 +14,7 @@ import com.supinfo.supapi.entity.Reservation;
 import com.supinfo.supapi.entity.Station;
 import com.supinfo.supapi.entity.Train;
 import com.supinfo.supapi.entity.TrainTrip;
+import com.supinfo.supapi.entity.Travel;
 import com.supinfo.supapi.entity.User;
 import com.supinfo.supapi.enumeration.Sens;
 import com.supinfo.supapi.interfaces.dao.IRailDao;
@@ -168,6 +169,16 @@ public class RailDao implements IRailDao{
         EntityTransaction et = em.getTransaction();
         et.begin();
         em.merge(reserv);
+        et.commit();
+        em.close();
+	}
+	
+	@Override
+	public void saveTravel(Travel travel) {
+		EntityManager em = PersistenceManager.getEntityManager();
+        EntityTransaction et = em.getTransaction();
+        et.begin();
+        em.merge(travel);
         et.commit();
         em.close();
 	}

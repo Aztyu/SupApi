@@ -1,5 +1,6 @@
 package com.supinfo.supapi.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,8 +18,7 @@ public class Reservation {
 	@ManyToOne
 	private User user;
 	
-	@OneToOne
-	@JoinColumn(name = "travel_id")
+	@OneToOne(cascade = {CascadeType.ALL})
 	private Travel travel;
 	
 	private boolean paid;

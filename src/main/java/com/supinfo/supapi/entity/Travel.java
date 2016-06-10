@@ -2,12 +2,14 @@ package com.supinfo.supapi.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -21,11 +23,14 @@ public class Travel {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;	
 	
-	@OneToMany
+	@OneToMany(mappedBy = "allerTravel", cascade = {CascadeType.ALL})
 	private List<SearchStep> aller;
 
-	@OneToMany
+	@OneToMany(mappedBy = "retourTravel",cascade = {CascadeType.ALL})
 	private List<SearchStep> retour;
+	
+	@OneToOne
+	private Reservation reservation;
 	
 	@Transient
 	private int minutes_aller;
@@ -74,6 +79,16 @@ public class Travel {
 
 	public void setMinutes_retour(int minutes_retour) {
 		this.minutes_retour = minutes_retour;
+	}
+	
+	
+
+	public Reservation getReservation() {
+		return reservation;
+	}
+
+	public void setReservation(Reservation reservation) {
+		this.reservation = reservation;
 	}
 
 	public void calculatePrice(){
