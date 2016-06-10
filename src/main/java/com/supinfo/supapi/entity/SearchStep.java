@@ -42,7 +42,6 @@ public class SearchStep {
 	private Timestamp end_time;
 	
 	@ManyToOne
-	@Cascade({CascadeType.MERGE})
 	private TrainTrip train_trip;
 	
 	double price;

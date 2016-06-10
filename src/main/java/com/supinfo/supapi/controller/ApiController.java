@@ -29,6 +29,12 @@ public class ApiController {
 		Response resp = new Response();
 		try{
 			List<Reservation> r = rail_job.getReservations(user_id);
+			for(Reservation reserv : r){
+				if(reserv.getUser() != null){
+					reserv.getUser().setReservations(null);
+				}
+			}
+			
 			if(r == null){
 				throw new Exception();
 			}
