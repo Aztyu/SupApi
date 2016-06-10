@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+//Entité qui pemet le renvoie de tous JSON, NON_EMPTY prévient de n' envoyer que les cj-hamps non nuls ou vides
+
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_EMPTY)
 public class Response {
 	private int html_status;

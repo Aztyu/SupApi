@@ -158,7 +158,7 @@ public class Station {
 		this.description = description;
 	}
 
-	public long getStationOrder(long line_id) {
+	public long getStationOrder(long line_id) {		//Selon la ligne que l'on utilise la position de la Gare sur celle ci change
 		long station_order = -1;
 		for(int i = lines.size()-1; i>=0; i--){
 			if(lines.get(i).getLine().getId() == line_id){

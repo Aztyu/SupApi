@@ -51,7 +51,7 @@ public class RailJob implements IRailJob{
 		
 		Line common_line = getCommonLine(departure_st, arrival_st);
 
-		if(common_line != null){
+		if(common_line != null){		//Si les stations sont sur une même ligne
 			List<SearchStep> steps = new ArrayList<SearchStep>();
 			
 			Travel travel = new Travel();
@@ -68,7 +68,7 @@ public class RailJob implements IRailJob{
 			travel.calculatePrice();
 			travel.calculateTime();
 			travel_list.add(travel);
-		}else{
+		}else{		//Sinon on utlise la recherche de path
 			List<List<StationList>> stations = getStationList(departure_st, arrival_st);
 			
 			for(List<StationList> lsl : stations){
@@ -116,7 +116,7 @@ public class RailJob implements IRailJob{
 		List<Station> checked_station = new ArrayList<Station>();
 		List<Station> nodes = dao.getNodeStations();
 		
-		Node root = new Node(start, null);
+		Node root = new Node(start, null);		//On part de la première gare en tant que noeud root
 
 		List<Line> check_line = new ArrayList<Line>();
 		for(StationLineAssociation sla : start.getLines()){
@@ -127,7 +127,7 @@ public class RailJob implements IRailJob{
 			target.add(sla.getLine());
 		}
 		
-		while(checked_station.size() < nodes.size()){
+		while(checked_station.size() < nodes.size()){		//Tant que toutes les gares "noeud/carrefour" ne sont pas vérifier on execute la recherche 
 			parseChildren(root, checked_station, nodes);
 		}
 		
@@ -183,7 +183,7 @@ public class RailJob implements IRailJob{
 				for(Station s : nodes){
 					if(checked_station.contains(s) == false){
 						for(StationLineAssociation sla1 : s.getLines()){
-							if(sla.getLine().equals(sla1.getLine())){
+							if(sla.getLine().equals(sla1.getLine())){	//Si une gare noeud se trouve sur la même ligne que la gare noeud root ont la garde pour plus tard dans les childrens (cad chemins possible)
 								root.addChild(new Node(s, root));
 								break;
 							}
@@ -192,14 +192,14 @@ public class RailJob implements IRailJob{
 				}
 			}
 		}else{
-			for(Node child : root.getChild()){
+			for(Node child : root.getChild()){	//Si le noeud à des enfants on parse les enfants
 				parseChildren(child, checked_station, nodes);
 			}
 		}
 	}
 
 	private SearchStep getStep(Station departure_st, Station arrival_st, Line line, Timestamp departure) {
-		SearchStep step = new SearchStep();
+		SearchStep step = new SearchStep();		//Récupération d'un train libre
 		
 		Sens sens;
 		long arrival_order = arrival_st.getStationOrder(line.getId());
@@ -213,7 +213,7 @@ public class RailJob implements IRailJob{
 		
 		double distance_start = 0.0;
 		
-		if(sens == Sens.ALLER){
+		if(sens == Sens.ALLER){			//On se base toujours sur les extremité des lignes pour avoir un point de retard
 			distance_start = dao.getDistanceforLine(1, departure_order, line.getId(), sens);
 		}else{
 			long station_id = line.getStations().get(line.getStations().size()-1).getStation_order();
@@ -229,7 +229,7 @@ public class RailJob implements IRailJob{
 		cal.setTime(departure);							//init at desired departure time
 		cal.set(Calendar.MINUTE, (int) -time_start);	//Set time at first station
 		
-		TrainTrip trip = findTrain(line, cal.getTime(), sens);
+		TrainTrip trip = findTrain(line, cal.getTime(), sens);		//Find time
 		Calendar trip_start = Calendar.getInstance();
 		trip_start.setTime(trip.getDeparture_date());
 		trip_start.add(Calendar.MINUTE, (int)time_start);
@@ -261,12 +261,12 @@ public class RailJob implements IRailJob{
 		cal_up.add(Calendar.HOUR, 1);
 		
 		TrainTrip tt = dao.findTrainTrip(line, cal_down.getTime(), cal_up.getTime(), sens);
-		if(tt == null){
+		if(tt == null){																		//If no trainTrip n'est prévu alors on cherche un train disponible
 			cal_down.set(Calendar.HOUR_OF_DAY, 0);
 			cal_up.set(Calendar.HOUR_OF_DAY, 0);
 			cal_up.add(Calendar.DAY_OF_YEAR, 1);
 			Train t = dao.findAvailableTrain(line, sens, cal_down, cal_up);
-			if(t == null){
+			if(t == null){		//Si il n'y a pas de train alors on le crée
 				t = new Train();
 				t.setLine_id(line.getId());
 				t.setSeats(140);
@@ -302,7 +302,7 @@ public class RailJob implements IRailJob{
 	}
 
 	@Override
-	public void initRail() {
+	public void initRail() {		//Mets la base de données à jour en matière de station et lignes
 		List<Line> lines = new ArrayList<Line>();
 		
 		//Toutes les lignes

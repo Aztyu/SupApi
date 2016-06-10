@@ -71,7 +71,7 @@ public class UserJob implements IUserJob{
 			    .setIssuer("accounts.google.com")
 			    .build();
 		
-		GoogleIdToken idToken = verifier.verify(google_id);
+		GoogleIdToken idToken = verifier.verify(google_id);		//On vérifie que le token reçu est valide pour cette user
 		
 		if (idToken != null) {
 			Payload payload = idToken.getPayload();

@@ -77,7 +77,7 @@ public class RailDao implements IRailDao{
 		EntityManager em = PersistenceManager.getEntityManager();
 		
 		Query query; 
-		if(sens == Sens.ALLER){
+		if(sens == Sens.ALLER){		//Selon le sens de la ligne on ne se base pas du même côté 
 			query = em.createQuery("SELECT SUM(sa.distance) FROM StationLineAssociation AS sa WHERE sa.line.id = :line_id AND sa.station_order > :departure_id AND sa.station_order <= :arrival_id ORDER BY sa.station_order ASC");
 		}else{
 			query = em.createQuery("SELECT SUM(sa.distance) FROM StationLineAssociation AS sa WHERE sa.line.id = :line_id AND sa.station_order <= :departure_id AND sa.station_order > :arrival_id ORDER BY sa.station_order ASC");
@@ -99,7 +99,7 @@ public class RailDao implements IRailDao{
 		EntityManager em = PersistenceManager.getEntityManager();
 		
 		Query query; 
-		if(sens == Sens.ALLER){
+		if(sens == Sens.ALLER){		//On chercher si un train fais déjà le trajet au moment, ainsi on peut l'utiliser
 			query = em.createQuery("SELECT tt FROM TrainTrip AS tt WHERE tt.aller = TRUE AND tt.departure_date <= :end AND tt.departure_date >= :start");
 		}else{
 			query = em.createQuery("SELECT tt FROM TrainTrip AS tt WHERE tt.aller = FALSE AND tt.departure_date < :end AND tt.departure_date > :start");
@@ -119,7 +119,7 @@ public class RailDao implements IRailDao{
 	public Train findAvailableTrain(Line line, Sens sens, Calendar cal_down, Calendar cal_up) {
 		EntityManager em = PersistenceManager.getEntityManager();
 		
-		Query query;
+		Query query;			//Récupère un train qui n'a pas de rotation pour le moment et qui est assigné à la bonne ligne
 		query = em.createQuery("SELECT t FROM Train as t LEFT JOIN t.trips tt WHERE ((tt.departure_date <= :date_start OR tt.departure_date >= :date_end) OR tt.id IS NULL) AND t.line_id = :line_id GROUP BY t.id order by sum(tt.id) asc");
 		query.setParameter("date_start", cal_down.getTime());
 		query.setParameter("date_end", cal_up.getTime());
@@ -156,7 +156,7 @@ public class RailDao implements IRailDao{
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Station> getNodeStations() {
+	public List<Station> getNodeStations() {		//On récupère les stations qui servent de noeuds/carrefour
 		EntityManager em = PersistenceManager.getEntityManager();
 		Query query = em.createQuery("SELECT s FROM Station as s LEFT JOIN s.lines sla GROUP BY s.id HAVING count(sla.id) > 1");
 		List<Station> stations = query.getResultList();
