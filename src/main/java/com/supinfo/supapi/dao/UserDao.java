@@ -81,13 +81,14 @@ public class UserDao implements IUserDao{
 	}
 	
 	@Override
-	public void updateUser(User user) {
+	public User updateUser(User user) {
 		EntityManager em = PersistenceManager.getEntityManager();
         EntityTransaction et = em.getTransaction();
         et.begin();
         em.merge(user);
         et.commit();
         em.close();
+        return user;
 	}
 
 	@Override

@@ -168,7 +168,7 @@ public class RailDao implements IRailDao{
 		EntityManager em = PersistenceManager.getEntityManager();
         EntityTransaction et = em.getTransaction();
         et.begin();
-        em.merge(reserv);
+        em.persist(reserv);
         et.commit();
         em.close();
 	}
@@ -181,5 +181,21 @@ public class RailDao implements IRailDao{
         em.merge(travel);
         et.commit();
         em.close();
+	}
+	
+	@Override
+	public Reservation getLastReservation(User u) {
+		EntityManager em = PersistenceManager.getEntityManager();	
+		Query query;
+		query = em.createQuery("SELECT r FROM Reservation as r WHERE r.user.id = :id order by r.id desc");
+		query.setParameter("id", u.getId());
+		query.setMaxResults(1);
+		
+		List results = query.getResultList();
+		if(results == null || results.isEmpty()){
+			return null;
+		}else{
+			return (Reservation) results.get(0);
+		}
 	}
 }

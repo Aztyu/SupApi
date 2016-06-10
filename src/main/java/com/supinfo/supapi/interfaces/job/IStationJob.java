@@ -11,4 +11,5 @@ public interface IStationJob {
 	public List<Station> getStations();
 	Station findStation(int station_id);
 	public Reservation createReservation(Travel travel, long user_id);
+	public List<Reservation> getReservations(long user_id);
 }

@@ -7,6 +7,7 @@ import com.supinfo.supapi.entity.Reservation;
 import com.supinfo.supapi.entity.Train;
 import com.supinfo.supapi.entity.TrainTrip;
 import com.supinfo.supapi.entity.Travel;
+import com.supinfo.supapi.entity.User;
 import com.supinfo.supapi.enumeration.Sens;
 
 public interface ITrainDao {
@@ -16,4 +17,5 @@ public interface ITrainDao {
 	public void createTrainTrip(TrainTrip tt);
 	public void saveReservation(Reservation reserv);
 	public void saveTravel(Travel travel);
+	public Reservation getLastReservation(User u);
 }

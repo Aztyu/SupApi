@@ -14,6 +14,7 @@ public class Response {
 	private List<Travel> travels;
 	private Station station;
 	private Reservation reservation;
+	private List<Reservation> reservations;
 
 	public int getHtml_status() {
 		return html_status;
@@ -69,5 +70,13 @@ public class Response {
 
 	public void setReservation(Reservation reservation) {
 		this.reservation = reservation;
+	}
+
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
 	}
 }

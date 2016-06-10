@@ -9,6 +9,11 @@ import com.supinfo.supapi.entity.Station;
 import com.supinfo.supapi.entity.Train;
 import com.supinfo.supapi.entity.TrainTrip;
 import com.supinfo.supapi.entity.Travel;
+import com.supinfo.supapi.entity.User;
 import com.supinfo.supapi.enumeration.Sens;
 
-public interface IRailDao extends ITrainDao, IStationDao {}
+public interface IRailDao extends ITrainDao, IStationDao {
+
+
+
+}

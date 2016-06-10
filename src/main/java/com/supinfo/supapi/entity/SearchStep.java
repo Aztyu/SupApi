@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_EMPTY)
@@ -40,6 +42,7 @@ public class SearchStep {
 	private Timestamp end_time;
 	
 	@ManyToOne
+	@Cascade({CascadeType.MERGE})
 	private TrainTrip train_trip;
 	
 	double price;
