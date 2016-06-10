@@ -430,11 +430,15 @@ public class RailJob implements IRailJob{
 		
 		Reservation reserv = new Reservation();
 		reserv.setTravel(travel);
-		reserv.setUser(u);
-		reserv.setPaid(false);
+		
+		u.addReservation(reserv);
+		
+		//reserv.setUser(u);
+		//reserv.setPaid(false);
 		
 		//dao.saveTravel(travel);
-		dao.saveReservation(reserv);
+		u_dao.updateUser(u);
+		//dao.saveReservation(reserv);
 		
 		return reserv;
 	}

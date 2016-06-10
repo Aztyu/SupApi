@@ -4,8 +4,10 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +32,7 @@ public class User {
 	private String password;
 	private String salt;
 	
-	@OneToMany
+	@OneToMany(cascade = {CascadeType.ALL})
 	private List<Reservation> reservations;
 	
 	private boolean googleUser;
@@ -120,5 +122,11 @@ public class User {
 	}
 	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
+	}
+	public void addReservation(Reservation reservation) {
+		if(reservations == null){
+			reservations = new ArrayList<Reservation>();
+		}
+		reservations.add(reservation);
 	}
 }
