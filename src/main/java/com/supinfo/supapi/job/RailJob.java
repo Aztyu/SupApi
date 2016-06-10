@@ -437,7 +437,7 @@ public class RailJob implements IRailJob{
 		dao.saveReservation(reserv);
 		User u_new = u_dao.updateUser(u);
 
-		return u_new.getReservations().get(u_new.getReservations().size()-1);
+		return reserv;
 	}
 	
 	@Override
