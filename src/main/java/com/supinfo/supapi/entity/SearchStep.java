@@ -12,7 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -23,14 +25,6 @@ public class SearchStep {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
-	
-	@JsonIgnore
-	@OneToOne
-	private Travel allerTravel;
-	
-	@JsonIgnore
-	@OneToOne
-	private Travel retourTravel;
 	
 	@ManyToOne
     @JoinColumn(name = "start_id", insertable =  false, updatable = false)
@@ -45,7 +39,6 @@ public class SearchStep {
 	private Timestamp end_time;
 	
 	@ManyToOne
-	@Cascade({CascadeType.MERGE})
 	private TrainTrip train_trip;
 	
 	double price;

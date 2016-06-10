@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import com.supinfo.supapi.entity.Line;
 import com.supinfo.supapi.entity.Station;
 
@@ -17,9 +20,11 @@ public class StationLineAssociation {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	
+	@JsonManagedReference
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Station station;
   
+	@JsonBackReference
 	@ManyToOne
 	private Line line;
 
