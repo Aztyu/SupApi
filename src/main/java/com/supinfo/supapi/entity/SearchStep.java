@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -23,9 +24,11 @@ public class SearchStep {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	
+	@JsonIgnore
 	@OneToOne
 	private Travel allerTravel;
 	
+	@JsonIgnore
 	@OneToOne
 	private Travel retourTravel;
 	
