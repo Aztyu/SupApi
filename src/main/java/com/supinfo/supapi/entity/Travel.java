@@ -25,11 +25,11 @@ public class Travel {
 	private long id;	
 	
 	@JsonManagedReference
-	@OneToMany(mappedBy = "allerTravel", cascade = {CascadeType.ALL})
+	@OneToMany(cascade = {CascadeType.ALL})
 	private List<SearchStep> aller;
 
 	@JsonManagedReference
-	@OneToMany(mappedBy = "retourTravel",cascade = {CascadeType.ALL})
+	@OneToMany(cascade = {CascadeType.ALL})
 	private List<SearchStep> retour;
 	
 	@OneToOne

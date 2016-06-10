@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.supinfo.supapi.entity.association.StationLineAssociation;
@@ -38,7 +37,6 @@ public class Station {
 	@Column(columnDefinition = "TEXT")
 	private String description;
 
-	@JsonManagedReference
 	@OneToMany(mappedBy="station")
 	private List<StationLineAssociation> lines;
 	

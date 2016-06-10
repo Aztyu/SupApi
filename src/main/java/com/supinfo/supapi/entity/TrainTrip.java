@@ -31,10 +31,6 @@ public class TrainTrip {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="train_id")
 	private Train train;
-	
-	@JsonManagedReference
-	@OneToMany
-	private List<SearchStep> steps; 
 
 	public long getId() {
 		return id;
@@ -70,13 +66,5 @@ public class TrainTrip {
 
 	public void setTrain(Train train) {
 		this.train = train;
-	}
-
-	public List<SearchStep> getSteps() {
-		return steps;
-	}
-
-	public void setSteps(List<SearchStep> steps) {
-		this.steps = steps;
 	}
 }
