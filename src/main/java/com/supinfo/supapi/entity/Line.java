@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import com.supinfo.supapi.entity.association.StationLineAssociation;
 
 
@@ -24,6 +26,7 @@ public class Line {
 	private Double avg_speed;
 	private double price;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy="line", cascade = CascadeType.ALL)
 	private List<StationLineAssociation> stations;
 	

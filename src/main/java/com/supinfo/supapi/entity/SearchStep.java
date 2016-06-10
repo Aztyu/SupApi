@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -32,12 +33,14 @@ public class SearchStep {
 	@OneToOne
 	private Travel retourTravel;
 	
+	@JsonBackReference
 	@ManyToOne
     @JoinColumn(name = "start_id", insertable =  false, updatable = false)
 	private Station start;
 	
 	private Timestamp start_time;
 	
+	@JsonBackReference
 	@ManyToOne
     @JoinColumn(name = "end_id", insertable =  false, updatable = false)
 	private Station end;
@@ -45,7 +48,6 @@ public class SearchStep {
 	private Timestamp end_time;
 	
 	@ManyToOne
-	@Cascade({CascadeType.MERGE})
 	private TrainTrip train_trip;
 	
 	double price;
