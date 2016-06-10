@@ -9,12 +9,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+
 @Entity
 public class Reservation {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	
+	@JsonBackReference
 	@ManyToOne
 	private User user;
 	

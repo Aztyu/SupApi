@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 @Entity
@@ -31,6 +32,7 @@ public class TrainTrip {
 	@JoinColumn(name="train_id")
 	private Train train;
 	
+	@JsonManagedReference
 	@OneToMany
 	private List<SearchStep> steps; 
 

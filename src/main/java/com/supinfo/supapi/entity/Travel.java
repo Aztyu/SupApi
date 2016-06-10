@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.supinfo.supapi.enumeration.Sens;
@@ -23,9 +24,11 @@ public class Travel {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;	
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "allerTravel", cascade = {CascadeType.ALL})
 	private List<SearchStep> aller;
 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "retourTravel",cascade = {CascadeType.ALL})
 	private List<SearchStep> retour;
 	

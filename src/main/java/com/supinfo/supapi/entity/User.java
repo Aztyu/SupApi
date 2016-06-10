@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.Generated;
 
 @Entity
@@ -32,6 +33,7 @@ public class User {
 	private String password;
 	private String salt;
 	
+	@JsonManagedReference
 	@OneToMany(cascade = {CascadeType.ALL})
 	private List<Reservation> reservations;
 	
