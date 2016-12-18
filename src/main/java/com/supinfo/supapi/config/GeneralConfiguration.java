@@ -37,6 +37,8 @@ public class GeneralConfiguration extends WebMvcConfigurerAdapter{
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
      
+    
+    //Init les diffrents bean Java utiliser dans les AutoWired
     @Bean
     public IUserDao getUserDao() {
         return new UserDao();

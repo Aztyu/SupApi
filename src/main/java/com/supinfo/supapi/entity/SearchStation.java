@@ -18,7 +18,7 @@ public class SearchStation {
 
 	private boolean aller_only;
 	
-	public void setDeparture_date(String departure_date, String time) throws ParseException {
+	public void setDeparture_date(String departure_date, String time) throws ParseException {		//On parse l'input du form
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = sdf.parse(departure_date);
 		Timestamp timestamp = new Timestamp(date.getTime());

@@ -31,10 +31,10 @@ public class Node
     	return value;
     }
     
-    public List<List<StationList>> getList(){
+    public List<List<StationList>> getList(){		//Fonction récursive qui déroule l'arbre en tableau à 2 dimensions de trajets utilisables par le site
     	List<List<StationList>> list = new ArrayList<List<StationList>>();
     	
-    	if(children.isEmpty()){
+    	if(children.isEmpty()){	//Si il n'y a pas d'enfant on retourne la StationList
     		StationList sl = new StationList();
     		sl.setStart(parent.getValue());
     		sl.setStop(value);
@@ -42,7 +42,7 @@ public class Node
     		list.add(new ArrayList<StationList>());
     		list.get(0).add(sl);
     	}else{
-	    	for(Node n : children){
+	    	for(Node n : children){		//Si il y a des enfants on les parse
 	    		List<List<StationList>> sub_list = n.getList();
 	    		
 	    		StationList sl = new StationList();

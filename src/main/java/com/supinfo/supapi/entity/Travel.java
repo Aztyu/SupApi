@@ -96,7 +96,7 @@ public class Travel {
 		this.reservation = reservation;
 	}
 
-	public void calculatePrice(){
+	public void calculatePrice(){		//On récupère le prix total de la liste
 		double price = 0.0;
 		for(SearchStep ss : aller){
 			price += ss.getPrice();
@@ -110,7 +110,7 @@ public class Travel {
 		this.price = price;/*Double.parseDouble(df.format(price));*/
 	}
 	
-	public void calculateTime(){
+	public void calculateTime(){	//On récupère le temps total de la liste
 		int time = 0;
 		for(SearchStep ss : aller){
 			time += ss.getTime();
