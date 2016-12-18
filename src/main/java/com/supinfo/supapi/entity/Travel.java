@@ -1,5 +1,7 @@
 package com.supinfo.supapi.entity;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -102,7 +104,10 @@ public class Travel {
 		if(!retour.isEmpty()){
 			price *= 2;
 		}
-		this.price = price;
+		
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.CEILING);
+		this.price = price;/*Double.parseDouble(df.format(price));*/
 	}
 	
 	public void calculateTime(){

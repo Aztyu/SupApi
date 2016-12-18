@@ -217,7 +217,7 @@ public class RailJob implements IRailJob{
 			distance_start = dao.getDistanceforLine(1, departure_order, line.getId(), sens);
 		}else{
 			long station_id = line.getStations().get(line.getStations().size()-1).getStation_order();
-			distance_start = dao.getDistanceforLine(station_id, departure_order, line.getId(), sens);
+			distance_start = dao.getDistanceforLine(departure_order, station_id, line.getId(), sens);
 		}
 		
 		double distance_end = dao.getDistanceforLine(departure_order, arrival_order, line.getId(), sens);
@@ -227,7 +227,7 @@ public class RailJob implements IRailJob{
 		
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(departure);							//init at desired departure time
-		cal.set(Calendar.MINUTE, (int) -time_start);	//Set time at first station
+		cal.add(Calendar.MINUTE, (int) -time_start);	//Set time at first station
 		
 		TrainTrip trip = findTrain(line, cal.getTime(), sens);
 		Calendar trip_start = Calendar.getInstance();
@@ -254,7 +254,6 @@ public class RailJob implements IRailJob{
 	private TrainTrip findTrain(Line line, Date date, Sens sens){
 		Calendar cal_down = Calendar.getInstance();
 		cal_down.setTime(date);	
-		cal_down.add(Calendar.HOUR, -1);
 		
 		Calendar cal_up = Calendar.getInstance();
 		cal_up.setTime(date);	
@@ -278,6 +277,7 @@ public class RailJob implements IRailJob{
 			
 			Calendar new_trip = Calendar.getInstance();
 			new_trip.setTime(date);
+			new_trip.add(Calendar.HOUR, 1);
 			new_trip.set(Calendar.MINUTE, 0);
 			
 			tt.setLong_Departure_date(new_trip.getTime().getTime());
@@ -306,14 +306,14 @@ public class RailJob implements IRailJob{
 		List<Line> lines = new ArrayList<Line>();
 		
 		//Toutes les lignes
-		Line l1 = new Line(1, "1", "Lille-Brest", 200.0, 20);
-		Line l2 = new Line(2, "2", "Stasbourg-Paris", 140.0, 14);
-		Line l3 = new Line(3, "3", "Paris-Bayonne", 170.0, 17);
-		Line l4 = new Line(4, "4", "Paris-Nice", 250.0, 25);
-		Line l5 = new Line(5, "5", "La Rochelle-Grenoble", 120.0, 12);
-		Line l6 = new Line(6, "6", "Saint-Étienne-Genève", 150.0, 15);
-		Line l7 = new Line(7, "7", "Bordeaux-Perpignan", 200.0, 20);
-		Line l8 = new Line(8, "8", "Avignon-Perpignan", 220.0, 22);
+		Line l1 = new Line(1, "1", "Lille-Brest", 200.0, 10);
+		Line l2 = new Line(2, "2", "Stasbourg-Paris", 140.0, 7);
+		Line l3 = new Line(3, "3", "Paris-Bayonne", 170.0, 8.5);
+		Line l4 = new Line(4, "4", "Paris-Nice", 250.0, 12.5);
+		Line l5 = new Line(5, "5", "La Rochelle-Grenoble", 120.0, 6);
+		Line l6 = new Line(6, "6", "Saint-Étienne-Genève", 150.0, 7.5);
+		Line l7 = new Line(7, "7", "Bordeaux-Perpignan", 200.0, 10);
+		Line l8 = new Line(8, "8", "Avignon-Perpignan", 220.0, 11);
 		
 		//Station carrefour
 		Station paris = new Station(1, "Paris, Gare de Lyon", "Place Louis Armand", "75571", "Paris", "FRANCE",48.8453765,2.369975, "Souvent appelée simplement gare de Lyon, elle est située dans le 12e arrondissement, principalement dans le quartier des Quinze-Vingts, le sud-est des voies et des quais étant situé dans le quartier de Bercy. C'est la troisième gare de Paris par son trafic (environ 83 millions de voyageurs en 20023), et la deuxième en termes de trains de grandes lignes (31,8 millions, TGV inclus, derrière la gare du Nord). <br> La gare de Lyon est la tête de ligne des TGV à destination du Sud-Est de la France, en particulier la région Rhône-Alpes et la façade méditerranéenne, ainsi que des régions intermédiaires et des pays voisins de ces régions. C'est aussi une gare du réseau Transilien réalisant la desserte du Sud-Est de la région parisienne avec la ligne R du Transilien (lignes Paris-Montereau via Héricy, Paris-Montereau via Fontainebleau et Moret et enfin Paris-Montargis).");

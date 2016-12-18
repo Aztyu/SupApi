@@ -1,5 +1,7 @@
 package com.supinfo.supapi.controller;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +49,9 @@ public class TravelController {
 			return resp;
 		}catch(Exception ex){
 			resp.setHtml_status(401);
-			resp.setHtml_message("OK");
+			StringWriter errors = new StringWriter();
+			ex.printStackTrace(new PrintWriter(errors));
+			resp.setHtml_message(errors.toString());
 			return resp;
 		}
 	}
